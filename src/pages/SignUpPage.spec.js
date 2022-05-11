@@ -1,4 +1,9 @@
-import { render, screen } from "@testing-library/react";
+import {
+  render,
+  screen,
+  waitFor,
+  // waitForElementToBeRemoved,
+} from "@testing-library/react";
 import SignUpPage from "./SignUpPage";
 import userEvent from "@testing-library/user-event";
 import axios from "axios";
@@ -55,7 +60,7 @@ describe("Sign Up Page", () => {
   });
   describe("Interactions", () => {
     let button;
-
+    const message = "Please check your e-mail to activate your account";
     const setup = () => {
       render(<SignUpPage />);
       const usernameInput = screen.getByLabelText("Username");
@@ -136,8 +141,8 @@ describe("Sign Up Page", () => {
       setup();
       userEvent.click(button);
 
-      await new Promise((resolve) => setTimeout(resolve, 500));
-
+      // await new Promise((resolve) => setTimeout(resolve, 500)); // Hacky way
+      await screen.findByText(message);
       expect(reqBody).toEqual({
         username: "ashish kapoor",
         email: "ashish@kapoor.com",
@@ -158,7 +163,7 @@ describe("Sign Up Page", () => {
       userEvent.click(button);
       userEvent.click(button);
 
-      await new Promise((resolve) => setTimeout(resolve, 500));
+      await screen.findByText(message);
 
       expect(counter).toBe(1);
     });
@@ -172,16 +177,51 @@ describe("Sign Up Page", () => {
       server.listen(); // msw
       setup();
       // Skipped next test because of this to make it easy to debug error.
-      expect(screen.queryByRole("status", { hidden: true })).not.toBeInTheDocument();
+      expect(
+        screen.queryByRole("status", { hidden: true })
+      ).not.toBeInTheDocument();
       userEvent.click(button);
       const spinner = screen.getByRole("status", { hidden: true });
       expect(spinner).toBeInTheDocument();
+      await screen.findByText(message);
     });
     // Since we could easily test it in the previous test
     it.skip("does not display spinner when there is no api request", () => {
       setup();
       const spinner = screen.queryByRole("status", { hidden: true });
       expect(spinner).not.toBeInTheDocument();
+    });
+
+    it("displays account activation notification after success with sign up request", async () => {
+      const server = setupServer(
+        rest.post("/api/1.0/users", (req, res, ctx) => {
+          return res(ctx.status(200));
+        })
+      );
+      server.listen(); // msw
+      setup();
+
+      expect(screen.queryByText(message)).not.toBeInTheDocument();
+      userEvent.click(button);
+
+      const text = await screen.findByText(message);
+      expect(text).toBeInTheDocument();
+    });
+
+    it("hides sign up form after successful signup request", async () => {
+      const server = setupServer(
+        rest.post("/api/1.0/users", (req, res, ctx) => {
+          return res(ctx.status(200));
+        })
+      );
+      server.listen(); // msw
+      setup();
+      const form = screen.getByTestId("form-sign-up");
+      userEvent.click(button);
+      await waitFor(() => {
+        expect(form).not.toBeInTheDocument();
+      });
+      // await waitForElementToBeRemoved(form);
     });
   });
 });

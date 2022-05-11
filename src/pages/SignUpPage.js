@@ -8,6 +8,7 @@ class SignUpPage extends React.Component {
     password: "",
     passwordRepeat: "",
     apiProgress: false,
+    signUpSuccess: false,
   };
 
   onChange = (event) => {
@@ -26,7 +27,6 @@ class SignUpPage extends React.Component {
       password,
     };
     this.setState({ apiProgress: true });
-    axios.post("/api/1.0/users", body);
     // fetch("/api/v1/users", {
     //   method: "POST",
     //   headers: {
@@ -34,86 +34,96 @@ class SignUpPage extends React.Component {
     //   },
     //   body: JSON.stringify(body),
     // });
+    axios.post("/api/1.0/users", body).then(() => {
+      this.setState({ signUpSuccess: true });
+    });
   };
 
   render() {
     let disabled = true;
-    const { password, passwordRepeat, apiProgress } = this.state;
+    const { password, passwordRepeat, apiProgress, signUpSuccess } = this.state;
     if (password && passwordRepeat) {
       disabled = password !== passwordRepeat;
     }
     return (
       <div className="col-lg-6 offset-lg-3 col-md-8 offset-md-2">
-        <form className="card mt-5">
-          <div className="card-header">
-            <h1 className="text-center">Sign Up</h1>
+        {!signUpSuccess && (
+          <form className="card mt-5" data-testid="form-sign-up">
+            <div className="card-header">
+              <h1 className="text-center">Sign Up</h1>
+            </div>
+            <div className="card-body">
+              <div className="mb-3">
+                <label className="form-label" htmlFor="username">
+                  Username
+                </label>
+                <input
+                  className="form-control"
+                  type="text"
+                  id="username"
+                  onChange={this.onChange}
+                />
+              </div>
+
+              <div className="mb-3">
+                <label className="form-label" htmlFor="email">
+                  Email
+                </label>
+                <input
+                  className="form-control"
+                  type="email"
+                  id="email"
+                  onChange={this.onChange}
+                />
+              </div>
+
+              <div className="mb-3">
+                <label className="form-label" htmlFor="password">
+                  Password
+                </label>
+                <input
+                  className="form-control"
+                  type="password"
+                  id="password"
+                  onChange={this.onChange}
+                />
+              </div>
+
+              <div className="mb-3">
+                <label className="form-label" htmlFor="passwordRepeat">
+                  Password Repeat
+                </label>
+                <input
+                  className="form-control"
+                  type="password"
+                  id="passwordRepeat"
+                  onChange={this.onChange}
+                />
+              </div>
+              <div className="text-center">
+                <button
+                  className="btn btn-primary"
+                  disabled={disabled || apiProgress}
+                  onClick={this.submit}
+                >
+                  {apiProgress && (
+                    <span
+                      className="spinner-grow spinner-grow-sm"
+                      role="status"
+                      aria-hidden="true"
+                    ></span>
+                  )}
+                  Sign up
+                </button>
+              </div>
+            </div>
+          </form>
+        )}
+        {signUpSuccess && (
+          <div className="alert alert-success mt-3">
+            Please check your e-mail to activate your account
           </div>
-          <div className="card-body">
-            <div className="mb-3">
-              <label className="form-label" htmlFor="username">
-                Username
-              </label>
-              <input
-                className="form-control"
-                type="text"
-                id="username"
-                onChange={this.onChange}
-              />
-            </div>
-
-            <div className="mb-3">
-              <label className="form-label" htmlFor="email">
-                Email
-              </label>
-              <input
-                className="form-control"
-                type="email"
-                id="email"
-                onChange={this.onChange}
-              />
-            </div>
-
-            <div className="mb-3">
-              <label className="form-label" htmlFor="password">
-                Password
-              </label>
-              <input
-                className="form-control"
-                type="password"
-                id="password"
-                onChange={this.onChange}
-              />
-            </div>
-
-            <div className="mb-3">
-              <label className="form-label" htmlFor="passwordRepeat">
-                Password Repeat
-              </label>
-              <input
-                className="form-control"
-                type="password"
-                id="passwordRepeat"
-                onChange={this.onChange}
-              />
-            </div>
-            <div className="text-center">
-              <button
-                className="btn btn-primary"
-                disabled={disabled || apiProgress}
-                onClick={this.submit}
-              >
-                {apiProgress && (
-                  <span
-                    className="spinner-grow spinner-grow-sm"
-                    role="status"
-                    aria-hidden="true"
-                  ></span>
-                )}
-                Sign up
-              </button>
-            </div>
-          </div>
-        </form>
+        )}
       </div>
     );
   }
