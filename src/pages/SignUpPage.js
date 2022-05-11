@@ -2,7 +2,13 @@ import React from "react";
 import axios from "axios";
 
 class SignUpPage extends React.Component {
-  state = { email: "", username: "", password: "", passwordRepeat: "" };
+  state = {
+    email: "",
+    username: "",
+    password: "",
+    passwordRepeat: "",
+    apiProgress: false,
+  };
 
   onChange = (event) => {
     const { id, value } = event.target;
@@ -19,6 +25,7 @@ class SignUpPage extends React.Component {
       email,
       password,
     };
+    this.setState({ apiProgress: true });
     axios.post("/api/1.0/users", body);
     // fetch("/api/v1/users", {
     //   method: "POST",
@@ -31,7 +38,7 @@ class SignUpPage extends React.Component {
 
   render() {
     let disabled = true;
-    const { password, passwordRepeat } = this.state;
+    const { password, passwordRepeat, apiProgress } = this.state;
     if (password && passwordRepeat) {
       disabled = password !== passwordRepeat;
     }
@@ -92,9 +99,16 @@ class SignUpPage extends React.Component {
             <div className="text-center">
               <button
                 className="btn btn-primary"
-                disabled={disabled}
+                disabled={disabled || apiProgress}
                 onClick={this.submit}
               >
+                {apiProgress && (
+                  <span
+                    className="spinner-grow spinner-grow-sm"
+                    role="status"
+                    aria-hidden="true"
+                  ></span>
+                )}
                 Sign up
               </button>
             </div>
