@@ -1,0 +1,108 @@
+import React from "react";
+import axios from "axios";
+
+class SignUpPage extends React.Component {
+  state = { email: "", username: "", password: "", passwordRepeat: "" };
+
+  onChange = (event) => {
+    const { id, value } = event.target;
+    this.setState({
+      [id]: value,
+    });
+  };
+
+  submit = (event) => {
+    event.preventDefault();
+    const { username, password, email } = this.state;
+    const body = {
+      username,
+      email,
+      password,
+    };
+    axios.post("/api/1.0/users", body);
+    // fetch("/api/v1/users", {
+    //   method: "POST",
+    //   headers: {
+    //     "Content-Type": "application/json",
+    //   },
+    //   body: JSON.stringify(body),
+    // });
+  };
+
+  render() {
+    let disabled = true;
+    const { password, passwordRepeat } = this.state;
+    if (password && passwordRepeat) {
+      disabled = password !== passwordRepeat;
+    }
+    return (
+      <div className="col-lg-6 offset-lg-3 col-md-8 offset-md-2">
+        <form className="card mt-5">
+          <div className="card-header">
+            <h1 className="text-center">Sign Up</h1>
+          </div>
+          <div className="card-body">
+            <div className="mb-3">
+              <label className="form-label" htmlFor="username">
+                Username
+              </label>
+              <input
+                className="form-control"
+                type="text"
+                id="username"
+                onChange={this.onChange}
+              />
+            </div>
+
+            <div className="mb-3">
+              <label className="form-label" htmlFor="email">
+                Email
+              </label>
+              <input
+                className="form-control"
+                type="email"
+                id="email"
+                onChange={this.onChange}
+              />
+            </div>
+
+            <div className="mb-3">
+              <label className="form-label" htmlFor="password">
+                Password
+              </label>
+              <input
+                className="form-control"
+                type="password"
+                id="password"
+                onChange={this.onChange}
+              />
+            </div>
+
+            <div className="mb-3">
+              <label className="form-label" htmlFor="passwordRepeat">
+                Password Repeat
+              </label>
+              <input
+                className="form-control"
+                type="password"
+                id="passwordRepeat"
+                onChange={this.onChange}
+              />
+            </div>
+            <div className="text-center">
+              <button
+                className="btn btn-primary"
+                disabled={disabled}
+                onClick={this.submit}
+              >
+                Sign up
+              </button>
+            </div>
+          </div>
+        </form>
+      </div>
+    );
+  }
+}
+
+export default SignUpPage;
