@@ -59,6 +59,21 @@ describe("Sign Up Page", () => {
     });
   });
   describe("Interactions", () => {
+    let reqBody;
+    let counter = 0;
+
+    const server = setupServer(
+      rest.post("/api/1.0/users", (req, res, ctx) => {
+        counter += 1;
+        reqBody = req.body;
+        return res(ctx.status(200));
+      })
+    );
+    beforeAll(() => server.listen());
+    beforeEach(() => {
+      counter = 0;
+    });
+    afterAll(() => server.close());
     let button;
     const message = "Please check your e-mail to activate your account";
     const setup = () => {
@@ -130,14 +145,6 @@ describe("Sign Up Page", () => {
     });
 
     it("[MSW] sends username, email and password to backend after clicking the button", async () => {
-      let reqBody;
-      const server = setupServer(
-        rest.post("/api/1.0/users", (req, res, ctx) => {
-          reqBody = req.body;
-          return res(ctx.status(200));
-        })
-      );
-      server.listen(); // msw
       setup();
       userEvent.click(button);
 
@@ -151,14 +158,6 @@ describe("Sign Up Page", () => {
     });
 
     it("[MSW] disables button when there's an ongoing api call", async () => {
-      let counter = 0;
-      const server = setupServer(
-        rest.post("/api/1.0/users", (req, res, ctx) => {
-          counter += 1;
-          return res(ctx.status(200));
-        })
-      );
-      server.listen(); // msw
       setup();
       userEvent.click(button);
       userEvent.click(button);
@@ -169,12 +168,6 @@ describe("Sign Up Page", () => {
     });
 
     it("displays spinner after clicking the submit button", async () => {
-      const server = setupServer(
-        rest.post("/api/1.0/users", (req, res, ctx) => {
-          return res(ctx.status(200));
-        })
-      );
-      server.listen(); // msw
       setup();
       // Skipped next test because of this to make it easy to debug error.
       expect(
@@ -193,12 +186,6 @@ describe("Sign Up Page", () => {
     });
 
     it("displays account activation notification after success with sign up request", async () => {
-      const server = setupServer(
-        rest.post("/api/1.0/users", (req, res, ctx) => {
-          return res(ctx.status(200));
-        })
-      );
-      server.listen(); // msw
       setup();
 
       expect(screen.queryByText(message)).not.toBeInTheDocument();
@@ -209,12 +196,6 @@ describe("Sign Up Page", () => {
     });
 
     it("hides sign up form after successful signup request", async () => {
-      const server = setupServer(
-        rest.post("/api/1.0/users", (req, res, ctx) => {
-          return res(ctx.status(200));
-        })
-      );
-      server.listen(); // msw
       setup();
       const form = screen.getByTestId("form-sign-up");
       userEvent.click(button);

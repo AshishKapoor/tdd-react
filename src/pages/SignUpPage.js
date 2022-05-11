@@ -18,7 +18,7 @@ class SignUpPage extends React.Component {
     });
   };
 
-  submit = (event) => {
+  submit = async (event) => {
     event.preventDefault();
     const { username, password, email } = this.state;
     const body = {
@@ -34,9 +34,13 @@ class SignUpPage extends React.Component {
     //   },
     //   body: JSON.stringify(body),
     // });
-    axios.post("/api/1.0/users", body).then(() => {
+    try {
+      await axios.post("/api/1.0/users", body);
       this.setState({ signUpSuccess: true });
-    });
+    } catch (error) {
+      console.error(error);
+      throw error;
+    }
   };
 
   render() {
