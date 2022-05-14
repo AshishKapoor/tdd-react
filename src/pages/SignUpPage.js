@@ -1,6 +1,6 @@
 import React from "react";
 import axios from "axios";
-
+import Input from "../components/input";
 class SignUpPage extends React.Component {
   state = {
     email: "",
@@ -9,6 +9,7 @@ class SignUpPage extends React.Component {
     passwordRepeat: "",
     apiProgress: false,
     signUpSuccess: false,
+    errors: {}
   };
 
   onChange = (event) => {
@@ -38,14 +39,16 @@ class SignUpPage extends React.Component {
       await axios.post("/api/1.0/users", body);
       this.setState({ signUpSuccess: true });
     } catch (error) {
-      console.error(error);
-      throw error;
+      if(error.response.status === 400) {
+        this.setState({errors: error.response.data.validationErrors})
+      }
+      this.setState({ apiProgress: false });
     }
   };
 
   render() {
     let disabled = true;
-    const { password, passwordRepeat, apiProgress, signUpSuccess } = this.state;
+    const { password, passwordRepeat, apiProgress, signUpSuccess, errors } = this.state;
     if (password && passwordRepeat) {
       disabled = password !== passwordRepeat;
     }
@@ -57,53 +60,11 @@ class SignUpPage extends React.Component {
               <h1 className="text-center">Sign Up</h1>
             </div>
             <div className="card-body">
-              <div className="mb-3">
-                <label className="form-label" htmlFor="username">
-                  Username
-                </label>
-                <input
-                  className="form-control"
-                  type="text"
-                  id="username"
-                  onChange={this.onChange}
-                />
-              </div>
+              <Input id="username" label="Username" onChange={this.onChange} help={errors.username} />
+              <Input id="email" label="Email" onChange={this.onChange} help={errors.email} />
+              <Input id="password" label="Password" onChange={this.onChange} help={errors.password} type="password" />
+              <Input id="passwordRepeat" label="Password Repeat" onChange={this.onChange} help={errors.passwordRepeat} type="password" />
 
-              <div className="mb-3">
-                <label className="form-label" htmlFor="email">
-                  Email
-                </label>
-                <input
-                  className="form-control"
-                  type="email"
-                  id="email"
-                  onChange={this.onChange}
-                />
-              </div>
-
-              <div className="mb-3">
-                <label className="form-label" htmlFor="password">
-                  Password
-                </label>
-                <input
-                  className="form-control"
-                  type="password"
-                  id="password"
-                  onChange={this.onChange}
-                />
-              </div>
-
-              <div className="mb-3">
-                <label className="form-label" htmlFor="passwordRepeat">
-                  Password Repeat
-                </label>
-                <input
-                  className="form-control"
-                  type="password"
-                  id="passwordRepeat"
-                  onChange={this.onChange}
-                />
-              </div>
               <div className="text-center">
                 <button
                   className="btn btn-primary"
