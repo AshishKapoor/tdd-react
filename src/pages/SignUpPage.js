@@ -120,7 +120,7 @@ class SignUpPage extends React.Component {
           </div>
         )}
         <img title="Hindi" alt="Indian flag" style={{ height: 16, width: 20 }} src="https://countryflagsapi.com/png/in" onClick={() => {this.props.i18n.changeLanguage('hi')}} />
-        <img title="English" alt="American flag" style={{ marginLeft: 5, height: 16, width: 20 }} src="https://countryflagsapi.com/png/us" onClick={() => {this.props.i18n.changeLanguage('en')}} />
+        <img title="English" alt="Great Britain flag" style={{ marginLeft: 5, height: 16, width: 20 }} src="https://countryflagsapi.com/png/gb" onClick={() => {this.props.i18n.changeLanguage('en')}} />
       </div>
     );
   }
