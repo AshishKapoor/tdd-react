@@ -9,6 +9,7 @@ import userEvent from "@testing-library/user-event";
 import axios from "axios";
 import { setupServer } from "msw/node";
 import { rest } from "msw";
+import "../locale/i18n";
 
 describe("Sign Up Page", () => {
   describe("Layout", () => {
@@ -49,12 +50,12 @@ describe("Sign Up Page", () => {
     });
     it("Has signup button", () => {
       render(<SignUpPage />);
-      const button = screen.queryByRole("button", { name: "Sign up" });
+      const button = screen.queryByRole("button", { name: "Sign Up" });
       expect(button).toBeInTheDocument();
     });
     it("Has signup button disabled", () => {
       render(<SignUpPage />);
-      const button = screen.queryByRole("button", { name: "Sign up" });
+      const button = screen.queryByRole("button", { name: "Sign Up" });
       expect(button).toBeDisabled();
     });
   });
