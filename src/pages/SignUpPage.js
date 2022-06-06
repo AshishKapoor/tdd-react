@@ -1,8 +1,9 @@
 import React from "react";
 import axios from "axios";
-import Input from "../components/input";
+import Input from "../components/Input";
 import { withTranslation } from "react-i18next";
 import { t } from "i18next";
+import LanguageSelector from "../components/LanguageSelector";
 class SignUpPage extends React.Component {
   state = {
     email: "",
@@ -119,8 +120,7 @@ class SignUpPage extends React.Component {
             Please check your e-mail to activate your account
           </div>
         )}
-        <img title="Hindi" alt="Indian flag" style={{ height: 16, width: 20 }} src="https://countryflagsapi.com/png/in" onClick={() => {this.props.i18n.changeLanguage('hi')}} />
-        <img title="English" alt="Great Britain flag" style={{ marginLeft: 5, height: 16, width: 20 }} src="https://countryflagsapi.com/png/gb" onClick={() => {this.props.i18n.changeLanguage('en')}} />
+        <LanguageSelector />
       </div>
     );
   }
