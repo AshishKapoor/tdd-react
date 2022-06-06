@@ -1,8 +1,9 @@
 import React from "react";
-import axios from "axios";
 import Input from "../components/Input";
 import { withTranslation } from "react-i18next";
 import { t } from "i18next";
+import { signUp } from "../api/apiCalls";
+
 class SignUpPage extends React.Component {
   state = {
     email: "",
@@ -41,11 +42,7 @@ class SignUpPage extends React.Component {
     //   body: JSON.stringify(body),
     // });
     try {
-      await axios.post("/api/1.0/users", body, {
-        headers: {
-          "Accept-Language": this.props.i18n.language,
-        },
-      });
+      await signUp(body);
       this.setState({ signUpSuccess: true });
     } catch (error) {
       if (error.response.status === 400) {
