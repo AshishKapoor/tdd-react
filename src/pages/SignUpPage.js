@@ -1,6 +1,7 @@
 import React from "react";
 import axios from "axios";
 import Input from "../components/input";
+
 class SignUpPage extends React.Component {
   state = {
     email: "",
@@ -14,8 +15,11 @@ class SignUpPage extends React.Component {
 
   onChange = (event) => {
     const { id, value } = event.target;
+    const removeErrorsOnUserInput = { ...this.state.errors };
+    delete removeErrorsOnUserInput[id];
     this.setState({
       [id]: value,
+      errors: removeErrorsOnUserInput,
     });
   };
 
