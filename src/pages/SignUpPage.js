@@ -3,7 +3,6 @@ import axios from "axios";
 import Input from "../components/Input";
 import { withTranslation } from "react-i18next";
 import { t } from "i18next";
-import LanguageSelector from "../components/LanguageSelector";
 class SignUpPage extends React.Component {
   state = {
     email: "",
@@ -42,7 +41,11 @@ class SignUpPage extends React.Component {
     //   body: JSON.stringify(body),
     // });
     try {
-      await axios.post("/api/1.0/users", body);
+      await axios.post("/api/1.0/users", body, {
+        headers: {
+          "Accept-Language": this.props.i18n.language,
+        },
+      });
       this.setState({ signUpSuccess: true });
     } catch (error) {
       if (error.response.status === 400) {
@@ -60,7 +63,7 @@ class SignUpPage extends React.Component {
       disabled = password !== passwordRepeat;
     }
     let passwordMismatch =
-      password !== passwordRepeat ? "Password mismatch" : "";
+      password !== passwordRepeat ? t("passwordMismatchValidation") : "";
     return (
       <div className="col-lg-6 offset-lg-3 col-md-8 offset-md-2">
         {!signUpSuccess && (
@@ -120,7 +123,6 @@ class SignUpPage extends React.Component {
             Please check your e-mail to activate your account
           </div>
         )}
-        <LanguageSelector />
       </div>
     );
   }

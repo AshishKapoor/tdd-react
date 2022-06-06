@@ -3,5 +3,6 @@
   "userName": "उपयोगकर्ता नाम",
   "email": "ईमेल",
   "password": "पासवर्ड",
-  "repeatPassword": "पासवर्ड दोहराएं"
+  "repeatPassword": "पासवर्ड दोहराएं",
+  "passwordMismatchValidation": "पासवर्ड का मेल नहीं हुआ"
 }

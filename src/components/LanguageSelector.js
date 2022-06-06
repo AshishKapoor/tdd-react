@@ -1,6 +1,7 @@
-import { withTranslation } from "react-i18next";
+import { useTranslation } from "react-i18next";
 
 const LanguageSelector = (props) => {
+  const { i18n } = useTranslation();
   return (
     <>
       <img
@@ -9,7 +10,7 @@ const LanguageSelector = (props) => {
         style={{ height: 16, width: 20 }}
         src="https://countryflagsapi.com/png/in"
         onClick={() => {
-          props.i18n.changeLanguage("hi");
+          i18n.changeLanguage("hi");
         }}
       />
       <img
@@ -18,11 +19,11 @@ const LanguageSelector = (props) => {
         style={{ marginLeft: 5, height: 16, width: 20 }}
         src="https://countryflagsapi.com/png/gb"
         onClick={() => {
-          props.i18n.changeLanguage("en");
+          i18n.changeLanguage("en");
         }}
       />
     </>
   );
 };
 
-export default withTranslation()(LanguageSelector);
+export default LanguageSelector;
