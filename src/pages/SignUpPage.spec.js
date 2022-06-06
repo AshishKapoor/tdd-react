@@ -10,6 +10,8 @@ import axios from "axios";
 import { setupServer } from "msw/node";
 import { rest } from "msw";
 import "../locale/i18n";
+import en from "../locale/en.json";
+import hi from "../locale/hi.json";
 
 describe("Sign Up Page", () => {
   describe("Layout", () => {
@@ -252,51 +254,115 @@ describe("Sign Up Page", () => {
           ctx.status(400),
           ctx.json({
             validationErrors: {
-              [field]: message
-            }
+              [field]: message,
+            },
           })
         );
       });
-    }
+    };
 
     it.each`
       field         | message
       ${"username"} | ${"Username cannot be null"}
       ${"email"}    | ${"Email cannot be null"}
       ${"password"} | ${"Password cannot be null"}
-    `("displays $message for $field", async ({field, message}) => {
+    `("displays $message for $field", async ({ field, message }) => {
       server.use(generateValidationError(field, message));
       setup();
       userEvent.click(button);
-      const validationError = await screen.findByText(message)
+      const validationError = await screen.findByText(message);
       expect(validationError).toBeInTheDocument();
     });
 
     it("hides spinner and enables button after response received", async () => {
-      server.use(generateValidationError("username", "Username cannot be null"));
+      server.use(
+        generateValidationError("username", "Username cannot be null")
+      );
       setup();
       userEvent.click(button);
-      await screen.findByText('Username cannot be null');
-      expect(screen.queryByRole('status')).not.toBeInTheDocument();
+      await screen.findByText("Username cannot be null");
+      expect(screen.queryByRole("status")).not.toBeInTheDocument();
       expect(button).toBeEnabled();
     });
-    
+
     it("displays mismatch message for password repeat input", () => {
       setup();
       userEvent.type(passwordInput, "P4ssword");
       userEvent.type(passwordRepeatInput, "MismatchP4ssword");
-      const validationError = screen.queryByText("Password mismatch")
+      const validationError = screen.queryByText("Password mismatch");
       expect(validationError).toBeInTheDocument();
     });
 
     it("clears validation error after username field is updated", async () => {
-      server.use(generateValidationError("username", "Username cannot be null"));
+      server.use(
+        generateValidationError("username", "Username cannot be null")
+      );
       setup();
       userEvent.click(button);
-      const validationError = await screen.findByText('Username cannot be null');
-      userEvent.type(usernameInput, 'user1-updated');
+      const validationError = await screen.findByText(
+        "Username cannot be null"
+      );
+      userEvent.type(usernameInput, "user1-updated");
       expect(validationError).not.toBeInTheDocument();
     });
-
+  });
+  describe("Internationalization", () => {
+    it("initially displays all texts in english", () => {
+      render(<SignUpPage />);
+      expect(
+        screen.getByRole("heading", {
+          name: "Sign Up",
+        })
+      ).toBeInTheDocument();
+      expect(
+        screen.getByRole("button", {
+          name: "Sign Up",
+        })
+      ).toBeInTheDocument();
+      expect(screen.getByLabelText(en.userName)).toBeInTheDocument();
+      expect(screen.getByLabelText(en.email)).toBeInTheDocument();
+      expect(screen.getByLabelText(en.password)).toBeInTheDocument();
+      expect(screen.getByLabelText(en.repeatPassword)).toBeInTheDocument();
+    });
+    it("displays all text in Hindi after changing the language", () => {
+      render(<SignUpPage />);
+      const hindiToggle = screen.getByTitle("Hindi");
+      userEvent.click(hindiToggle);
+      expect(
+        screen.getByRole("heading", {
+          name: hi.signUp,
+        })
+      ).toBeInTheDocument();
+      expect(
+        screen.getByRole("button", {
+          name: hi.signUp,
+        })
+      ).toBeInTheDocument();
+      expect(screen.getByLabelText(hi.userName)).toBeInTheDocument();
+      expect(screen.getByLabelText(hi.email)).toBeInTheDocument();
+      expect(screen.getByLabelText(hi.password)).toBeInTheDocument();
+      expect(screen.getByLabelText(hi.repeatPassword)).toBeInTheDocument();
+    });
+    it("displays all text in English after changing the language back from Hindi", () => {
+      render(<SignUpPage />);
+      const hindiToggle = screen.getByTitle("Hindi");
+      userEvent.click(hindiToggle);
+      const englishToggle = screen.getByTitle("English");
+      userEvent.click(englishToggle);
+      expect(
+        screen.getByRole("heading", {
+          name: en.signUp,
+        })
+      ).toBeInTheDocument();
+      expect(
+        screen.getByRole("button", {
+          name: en.signUp,
+        })
+      ).toBeInTheDocument();
+      expect(screen.getByLabelText(en.userName)).toBeInTheDocument();
+      expect(screen.getByLabelText(en.email)).toBeInTheDocument();
+      expect(screen.getByLabelText(en.password)).toBeInTheDocument();
+      expect(screen.getByLabelText(en.repeatPassword)).toBeInTheDocument();
+    });
   });
 });
