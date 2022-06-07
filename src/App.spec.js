@@ -75,6 +75,7 @@ describe("Routing", () => {
     targetPage
     ${"Home"}
     ${"Sign Up"}
+    ${"Login"}
   `("has link to $targetPage on NavBar", ({ targetPage }) => {
     setup("/");
     const link = screen.getByRole("link", { name: targetPage });
@@ -95,4 +96,12 @@ describe("Routing", () => {
       expect(screen.getByTestId(visiblePage)).toBeInTheDocument();
     }
   );
+
+  it("displays home page when clicking brand logo", () => {
+    setup('/login');
+
+    const logo = screen.queryByAltText('Hoaxify');
+    userEvent.click(logo);
+    expect(screen.getByTestId('home-page')).toBeInTheDocument();
+  })
 });
