@@ -33,12 +33,14 @@ describe("Routing", () => {
   //   expect(page).not.toBeInTheDocument();
   // });
   it.each`
-    path         | pageTestId
-    ${"/"}       | ${"home-page"}
-    ${"/signup"} | ${"sign-up-page"}
-    ${"/login"}  | ${"login-page"}
-    ${"/users/1"} | ${"users-page"}
-    ${"/users/2"} | ${"users-page"}
+    path               | pageTestId
+    ${"/"}             | ${"home-page"}
+    ${"/signup"}       | ${"sign-up-page"}
+    ${"/login"}        | ${"login-page"}
+    ${"/users/1"}      | ${"users-page"}
+    ${"/users/2"}      | ${"users-page"}
+    ${"/activate/123"} | ${"account-activation-page"}
+    ${"/activate/456"} | ${"account-activation-page"}
   `("displays $pageTestId when path is $path", ({ path, pageTestId }) => {
     setup(path);
 
@@ -47,19 +49,25 @@ describe("Routing", () => {
   });
 
   it.each`
-    path         | pageTestId
-    ${"/"}       | ${"sign-up-page"}
-    ${"/"}       | ${"login-page"}
-    ${"/"}       | ${"users-page"}
-    ${"/signup"} | ${"home-page"}
-    ${"/signup"} | ${"login-page"}
-    ${"/signup"} | ${"user-page"}
-    ${"/login"}  | ${"home-page"}
-    ${"/login"}  | ${"signup-page"}
-    ${"/login"}  | ${"users-page"}
-    ${"/users/1"} | ${"home-page"}
-    ${"/users/1"} | ${"sign-up-page"}
-    ${"/users/1"} | ${"login-page"}
+    path               | pageTestId
+    ${"/"}             | ${"sign-up-page"}
+    ${"/"}             | ${"login-page"}
+    ${"/"}             | ${"users-page"}
+    ${"/"}             | ${"account-activation-page"}
+    ${"/signup"}       | ${"home-page"}
+    ${"/signup"}       | ${"login-page"}
+    ${"/signup"}       | ${"user-page"}
+    ${"/signup"}       | ${"account-activation-page"}
+    ${"/login"}        | ${"home-page"}
+    ${"/login"}        | ${"signup-page"}
+    ${"/login"}        | ${"users-page"}
+    ${"/users/1"}      | ${"home-page"}
+    ${"/users/1"}      | ${"sign-up-page"}
+    ${"/users/1"}      | ${"login-page"}
+    ${"/users/1"}      | ${"account-activation-page"}
+    ${"/activate/123"} | ${"home-page"}
+    ${"/activate/123"} | ${"sign-up-page"}
+    ${"/activate/123"} | ${"login-page"}
   `(
     "does not display $pageTestId when path is $path",
     ({ path, pageTestId }) => {
