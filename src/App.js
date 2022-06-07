@@ -1,65 +1,58 @@
-import HomePage from "./pages/HomePage";
-import SignUpPage from "./pages/SignUpPage";
-import LanguageSelector from "./components/LanguageSelector";
-import LoginPage from "./pages/LoginPage";
-import UserPage from "./pages/UserPage";
 import { useTranslation } from "react-i18next";
-import { useState } from "react";
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  NavLink,
+} from "react-router-dom";
 import logoImage from "./assets/images/logo512.png";
+import LanguageSelector from "./components/LanguageSelector";
+import HomePage from "./pages/HomePage";
+import LoginPage from "./pages/LoginPage";
+import SignUpPage from "./pages/SignUpPage";
+import UsersPage from "./pages/UsersPage";
 
 function App() {
   const { t } = useTranslation();
-  const [path, setPath] = useState(window.location.pathname);
-
-  const onClickLink = (event) => {
-    event.preventDefault();
-    const path = event.currentTarget.attributes.href.value;
-    window.history.pushState({}, "", path);
-    setPath(path);
-  };
 
   return (
-    <>
+    <Router>
       <nav className="navbar navbar-expand navbar-light bg-light shadow">
         <div className="container">
-          <a
-            className="navbar-brand"
-            href="/"
-            title="Home"
-            onClick={onClickLink}
-          >
+          <NavLink className="navbar-brand" to="/" title="Home">
             <img width="60" src={logoImage} alt="Hoaxify" />
             Hoaxify
-          </a>
+          </NavLink>
           <ul className="navbar-nav">
-            <a
-              className="nav-link"
-              href="/signup"
-              title="Sign Up"
-              onClick={onClickLink}
-            >
+            <NavLink className="nav-link" to="/signup">
               {t("signUp")}
-            </a>
-            <a
-              className="nav-link"
-              href="/login"
-              title="Login"
-              onClick={onClickLink}
-            >
+            </NavLink>
+            <NavLink className="nav-link" to="/login">
               Login
-            </a>
+            </NavLink>
           </ul>
         </div>
       </nav>
       <div className="container">
-        {path === "/" && <HomePage />}
-        {path === "/signup" && <SignUpPage />}
-        {path === "/login" && <LoginPage />}
-        {path.startsWith("/user/") && <UserPage />}
+        <Routes>
+          <Route exact path="/" element={<HomePage />} />
+          <Route path="/signup" element={<SignUpPage />} />
+          <Route path="/login" element={<LoginPage />} />
+          <Route path="/users/:id" element={<UsersPage />} />
+          <Route path="*" element={<NoMatch />} />
+        </Routes>
         <LanguageSelector />
       </div>
-    </>
+    </Router>
   );
 }
+
+const NoMatch = () => {
+  return (
+    <main style={{ padding: "1rem" }}>
+      <p>There's nothing here!</p>
+    </main>
+  );
+};
 
 export default App;

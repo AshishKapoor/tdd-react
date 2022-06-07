@@ -1,6 +1,5 @@
 import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import { setupWorker } from "msw";
 import App from "./App";
 
 describe("Routing", () => {
@@ -38,8 +37,8 @@ describe("Routing", () => {
     ${"/"}       | ${"home-page"}
     ${"/signup"} | ${"sign-up-page"}
     ${"/login"}  | ${"login-page"}
-    ${"/user/1"} | ${"user-page"}
-    ${"/user/2"} | ${"user-page"}
+    ${"/users/1"} | ${"users-page"}
+    ${"/users/2"} | ${"users-page"}
   `("displays $pageTestId when path is $path", ({ path, pageTestId }) => {
     setup(path);
 
@@ -51,16 +50,16 @@ describe("Routing", () => {
     path         | pageTestId
     ${"/"}       | ${"sign-up-page"}
     ${"/"}       | ${"login-page"}
-    ${"/"}       | ${"user-page"}
+    ${"/"}       | ${"users-page"}
     ${"/signup"} | ${"home-page"}
     ${"/signup"} | ${"login-page"}
     ${"/signup"} | ${"user-page"}
     ${"/login"}  | ${"home-page"}
     ${"/login"}  | ${"signup-page"}
-    ${"/login"}  | ${"user-page"}
-    ${"/user/1"} | ${"home-page"}
-    ${"/user/1"} | ${"sign-up-page"}
-    ${"/user/1"} | ${"login-page"}
+    ${"/login"}  | ${"users-page"}
+    ${"/users/1"} | ${"home-page"}
+    ${"/users/1"} | ${"sign-up-page"}
+    ${"/users/1"} | ${"login-page"}
   `(
     "does not display $pageTestId when path is $path",
     ({ path, pageTestId }) => {
@@ -98,10 +97,10 @@ describe("Routing", () => {
   );
 
   it("displays home page when clicking brand logo", () => {
-    setup('/login');
+    setup("/login");
 
-    const logo = screen.queryByAltText('Hoaxify');
+    const logo = screen.queryByAltText("Hoaxify");
     userEvent.click(logo);
-    expect(screen.getByTestId('home-page')).toBeInTheDocument();
-  })
+    expect(screen.getByTestId("home-page")).toBeInTheDocument();
+  });
 });
