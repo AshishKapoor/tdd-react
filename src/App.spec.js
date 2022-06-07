@@ -1,4 +1,5 @@
 import { render, screen } from "@testing-library/react";
+import userEvent from "@testing-library/user-event";
 import { setupWorker } from "msw";
 import App from "./App";
 
@@ -79,4 +80,19 @@ describe("Routing", () => {
     const link = screen.getByRole("link", { name: targetPage });
     expect(link).toBeInTheDocument();
   });
+
+  it.each`
+    initialPath  | clickingTo   | visiblePage
+    ${"/"}       | ${"Sign Up"} | ${"sign-up-page"}
+    ${"/signup"} | ${"Home"}    | ${"home-page"}
+  `(
+    "displays $visiblePage after clicking $clickingTo",
+    ({ initialPath, clickingTo, visiblePage }) => {
+      setup(initialPath);
+
+      const link = screen.getByRole("link", { name: clickingTo });
+      userEvent.click(link);
+      expect(screen.getByTestId(visiblePage)).toBeInTheDocument();
+    }
+  );
 });
