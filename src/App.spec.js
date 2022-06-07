@@ -6,7 +6,7 @@ describe("Routing", () => {
   const setup = (path) => {
     window.history.pushState({}, "", path);
     render(<App />);
-  }
+  };
   // it("displays homepage at /", () => {
   //   render(<App />);
   //   const homepage = screen.getByTestId("home-page");
@@ -69,4 +69,14 @@ describe("Routing", () => {
       expect(page).not.toBeInTheDocument();
     }
   );
+
+  it.each`
+    targetPage
+    ${"Home"}
+    ${"Sign Up"}
+  `("has link to $targetPage on NavBar", ({ targetPage }) => {
+    setup("/");
+    const link = screen.getByRole("link", { name: targetPage });
+    expect(link).toBeInTheDocument();
+  });
 });

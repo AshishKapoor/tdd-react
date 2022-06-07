@@ -7,10 +7,18 @@ import UserPage from "./pages/UserPage";
 function App() {
   return (
     <div className="container">
-      {window.location.pathname === '/' && <HomePage />}
-      {window.location.pathname === '/signup' && <SignUpPage />}
-      {window.location.pathname === '/login' && <LoginPage />}
-      {window.location.pathname.startsWith('/user/') && <UserPage />}
+      <div>
+        <a href="/" title="Home">
+          Hoaxify
+        </a>
+        <a href="/signup" title="Sign Up">
+        Sign Up
+        </a>
+      </div>
+      {window.location.pathname === "/" && <HomePage />}
+      {window.location.pathname === "/signup" && <SignUpPage />}
+      {window.location.pathname === "/login" && <LoginPage />}
+      {window.location.pathname.startsWith("/user/") && <UserPage />}
       <LanguageSelector />
     </div>
   );
