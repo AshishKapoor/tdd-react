@@ -1,6 +1,20 @@
 import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import App from "./App";
+import { setupServer } from "msw/node";
+import { rest } from "msw";
+// import "../locale/i18n";
+
+const server = setupServer(
+  rest.post("/api/1.0/users/token/:token", (req, res, ctx) => {
+    return res(ctx.status(200));
+  })
+);
+beforeAll(() => server.listen());
+beforeEach(() => {
+  server.resetHandlers(); // res.once() alt.
+});
+afterAll(() => server.close());
 
 describe("Routing", () => {
   const setup = (path) => {
@@ -112,3 +126,5 @@ describe("Routing", () => {
     expect(screen.getByTestId("home-page")).toBeInTheDocument();
   });
 });
+
+// console.error = () => {};

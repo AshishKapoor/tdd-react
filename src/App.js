@@ -1,6 +1,9 @@
 import { useTranslation } from "react-i18next";
 import {
-  BrowserRouter as Router, NavLink, Route, Routes
+  BrowserRouter as Router,
+  NavLink,
+  Route,
+  Routes,
 } from "react-router-dom";
 import logoImage from "./assets/images/logo512.png";
 import LanguageSelector from "./components/LanguageSelector";
@@ -37,6 +40,8 @@ function App() {
           <Route path="/signup" element={<SignUpPage />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/users/:id" element={<UsersPage />} />
+          {/* <Route path="/activate/:token" element={(props) => <AccountActivationPage {...props} />} /> */}
+          {/* with hooks */}
           <Route path="/activate/:token" element={<AccountActivationPage />} />
           <Route path="*" element={<NoMatch />} />
         </Routes>

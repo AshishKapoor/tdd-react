@@ -6,5 +6,9 @@ export const signUp = (body) => {
     headers: {
       "Accept-Language": i18n.language,
     },
-  })
+  });
+};
+
+export const activate = (token) => {
+  return axios.post("/api/1.0/users/token/" + token);
 };
