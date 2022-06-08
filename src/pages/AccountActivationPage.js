@@ -7,12 +7,12 @@ const AccountActivationPage = ({ match }) => {
   const { token } = useParams();
 
   useEffect(() => {
-    activate(token || match.params.token)
+    activate(token || match?.params?.token)
       .then(() => {
         setResult("success");
       })
       .catch(() => setResult("fail"));
-  }, [match.params.token, token]);
+  }, [token, match?.params?.token]);
 
   return (
     <div data-testid="account-activation-page">
@@ -21,6 +21,9 @@ const AccountActivationPage = ({ match }) => {
       )}
       {result === "fail" && (
         <div className="alert alert-danger mt-3">Activation failure</div>
+      )}
+      {!result && (
+        <span className="spinner-border spinner-border" role="status"></span>
       )}
     </div>
   );

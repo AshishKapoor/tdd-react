@@ -31,6 +31,9 @@ function App() {
             <NavLink className="nav-link" to="/login">
               Login
             </NavLink>
+            <NavLink className="nav-link" to="/activate/1">
+              Activate 1
+            </NavLink>
           </ul>
         </div>
       </nav>
