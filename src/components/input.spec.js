@@ -18,4 +18,3 @@ it("does not have is-invalid class for input when help is set", () => {
   const input = container.querySelector("input");
   expect(input.classList).not.toContain("is-invalid")
 })
-
