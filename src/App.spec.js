@@ -3,9 +3,19 @@ import userEvent from "@testing-library/user-event";
 import App from "./App";
 import { setupServer } from "msw/node";
 import { rest } from "msw";
-// import "../locale/i18n";
 
 const server = setupServer(
+  rest.get("/api/1.0/users", (req, res, ctx) => {
+    return res(
+      ctx.status(200),
+      ctx.json({
+        content: [],
+        page: 0,
+        size: 0,
+        totalPages: 0,
+      })
+    );
+  }),
   rest.post("/api/1.0/users/token/:token", (req, res, ctx) => {
     return res(ctx.status(200));
   })
