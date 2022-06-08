@@ -16,22 +16,42 @@ class UserList extends React.Component {
       this.setState({ page: response.data });
     });
   }
+  loadNext = () => {
+    loadUsers(this.state.page.page + 1).then((response) => {
+      this.setState({ page: response.data });
+    });
+  };
+  loadPrevious = () => {
+    loadUsers(this.state.page.page - 1).then((response) => {
+      this.setState({ page: response.data });
+    });
+  };
+
   render() {
+    const { totalPages, page, content } = this.state.page;
     return (
       <div className="card">
         <div className="card-header text-center">
           <h3>Users</h3>
         </div>
-        {this.state.page.content.map((user) => {
-          return (
-            <li
-              key={user.id}
-              className="list-group-item list-group-item-action"
-            >
-              {user.username}
-            </li>
-          );
-        })}
+        <ul className="list-group list-group-flush">
+          {content.map((user) => {
+            return (
+              <li
+                key={user.id}
+                className="list-group-item list-group-item-action"
+              >
+                {user.username}
+              </li>
+            );
+          })}
+        </ul>
+        {page !== 0 && (
+          <button onClick={this.loadPrevious}>&lt; previous</button>
+        )}
+        {totalPages > page + 1 && (
+          <button onClick={this.loadNext}>next &gt;</button>
+        )}
       </div>
     );
   }

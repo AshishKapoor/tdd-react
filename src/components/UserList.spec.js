@@ -1,7 +1,8 @@
-import { render, screen, waitFor } from "@testing-library/react";
+import { render, screen } from "@testing-library/react";
 import UserList from "./UserList";
 import { setupServer } from "msw/node";
 import { rest } from "msw";
+import userEvent from "@testing-library/user-event";
 
 const users = [
   {
@@ -85,5 +86,46 @@ describe("User List", () => {
     render(<UserList />);
     const users = await screen.findAllByText(/user/);
     expect(users.length).toBe(3);
+  });
+  it("displays next page link", async () => {
+    render(<UserList />);
+    await screen.findByText(/user1/);
+    expect(screen.getByText("next >")).toBeInTheDocument();
+  });
+  it("displays next page after clicking next", async () => {
+    render(<UserList />);
+    await screen.findByText("user1");
+    const nextPageLink = screen.queryByText("next >");
+    userEvent.click(nextPageLink);
+    const firstUserOnPage2 = await screen.findByText("user4");
+    expect(firstUserOnPage2).toBeInTheDocument();
+  });
+  it("hides next page link at the last page", async () => {
+    render(<UserList />);
+    await screen.findByText("user1");
+    userEvent.click(screen.queryByText("next >"));
+
+    await screen.findByText("user4");
+    userEvent.click(screen.queryByText("next >"));
+
+    await screen.findByText("user7");
+
+    const nextPageLink = screen.queryByText("next >");
+    expect(nextPageLink).not.toBeInTheDocument();
+  });
+  it("does not display the previous page link in first page", async () => {
+    render(<UserList />);
+    await screen.findByText("user1");
+    const previousPageLink = screen.queryByText("< previous");
+    expect(previousPageLink).not.toBeInTheDocument();
+  });
+  it("display the previous page link in second page", async () => {
+    render(<UserList />);
+    await screen.findByText("user1");
+    userEvent.click(screen.queryByText("next >"));
+
+    await screen.findByText("user4");
+    const previousPageLink = screen.queryByText("< previous");
+    expect(previousPageLink).toBeInTheDocument();
   });
 });
