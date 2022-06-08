@@ -7,20 +7,18 @@ let counter = 0;
 
 const server = setupServer(
   rest.post("/api/1.0/users/token/:token", (req, res, ctx) => {
+    counter += 1;
     if (req.params.token === "5678") {
       return res(ctx.status(400));
     }
-    counter += 1;
     return res(ctx.status(200));
   })
 );
 beforeAll(() => server.listen());
-
 beforeEach(() => {
   counter = 0;
   server.resetHandlers(); // res.once() alt.
 });
-
 afterAll(() => server.close());
 
 describe("Account Activation Page", () => {
@@ -45,5 +43,15 @@ describe("Account Activation Page", () => {
     setup("5678");
     const message = await screen.findByText("Activation failure");
     expect(message).toBeInTheDocument();
+  });
+
+  it("sends the activation request after the token is changed", async () => {
+    const match = { params: { token: "1234" } };
+    const { rerender } = render(<AccountActivationPage match={match} />);
+    await screen.findByText("Account is activated");
+    match.params.token = "5678";
+    rerender(<AccountActivationPage match={match} />);
+    await screen.findByText("Activation failure");
+    expect(counter).toBe(2);
   });
 });

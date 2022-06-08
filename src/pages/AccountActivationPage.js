@@ -12,7 +12,7 @@ const AccountActivationPage = ({ match }) => {
         setResult("success");
       })
       .catch(() => setResult("fail"));
-  }, [token, match]);
+  }, [match.params.token, token]);
 
   return (
     <div data-testid="account-activation-page">
