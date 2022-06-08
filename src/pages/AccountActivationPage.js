@@ -9,12 +9,16 @@ const AccountActivationPage = ({ match }) => {
   const { token } = useParams();
 
   useEffect(() => {
-    setResult();
-    activate(token || match?.params?.token)
-      .then(() => {
+    async function activateRequest() {
+      setResult();
+      try {
+        await activate(token || match?.params?.token);
         setResult("success");
-      })
-      .catch(() => setResult("fail"));
+      } catch (error) {
+        setResult("fail");
+      }
+    }
+    activateRequest();
   }, [match?.params?.token, token]);
 
   let content = (
