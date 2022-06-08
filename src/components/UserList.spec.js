@@ -128,4 +128,13 @@ describe("User List", () => {
     const previousPageLink = screen.queryByText("< previous");
     expect(previousPageLink).toBeInTheDocument();
   });
+  it("display the previous page after clicking previous page link", async () => {
+    render(<UserList />);
+    await screen.findByText("user1");
+    userEvent.click(screen.queryByText("next >"));
+    await screen.findByText("user4");
+    userEvent.click(screen.queryByText("< previous"));
+    const firstUser = await screen.findByText("user1");
+    expect(firstUser).toBeInTheDocument();
+  });
 });

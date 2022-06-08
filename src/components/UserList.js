@@ -12,19 +12,17 @@ class UserList extends React.Component {
   };
 
   componentDidMount() {
-    loadUsers().then((response) => {
-      this.setState({ page: response.data });
-    });
+    this.loadData();
   }
-  loadNext = () => {
-    loadUsers(this.state.page.page + 1).then((response) => {
-      this.setState({ page: response.data });
-    });
-  };
-  loadPrevious = () => {
-    loadUsers(this.state.page.page - 1).then((response) => {
-      this.setState({ page: response.data });
-    });
+  loadData = async (pageIndex) => {
+    try {
+      await loadUsers(pageIndex).then((response) => {
+        this.setState({ page: response.data });
+      });
+    } catch (error) {
+      console.error(error);
+      throw error;
+    }
   };
 
   render() {
@@ -46,12 +44,24 @@ class UserList extends React.Component {
             );
           })}
         </ul>
-        {page !== 0 && (
-          <button onClick={this.loadPrevious}>&lt; previous</button>
-        )}
-        {totalPages > page + 1 && (
-          <button onClick={this.loadNext}>next &gt;</button>
-        )}
+        <div className="card-footer">
+          {page !== 0 && (
+            <button
+              className="btn btn-outline-secondary btn-sm"
+              onClick={() => this.loadData(page - 1)}
+            >
+              &lt; previous
+            </button>
+          )}
+          {totalPages > page + 1 && (
+            <button
+              className="btn btn-outline-secondary btn-sm"
+              onClick={() => this.loadData(page + 1)}
+            >
+              next &gt;
+            </button>
+          )}
+        </div>
       </div>
     );
   }
