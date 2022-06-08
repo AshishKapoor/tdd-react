@@ -1,6 +1,8 @@
 import { activate } from "../api/apiCalls";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
+import Alert from "../components/Alert";
+import Spinner from "../components/Spinner";
 
 const AccountActivationPage = ({ match }) => {
   const [result, setResult] = useState();
@@ -13,17 +15,17 @@ const AccountActivationPage = ({ match }) => {
         setResult("success");
       })
       .catch(() => setResult("fail"));
-  }, [token, match?.params?.token]);
+  }, [match?.params?.token, token]);
 
   let content = (
-    <span className="spinner-border" role="status"></span>
+    <Alert type="secondary" center>
+      <Spinner size="big" />
+    </Alert>
   );
   if (result === "success") {
-    content = (
-      <div className="alert alert-success mt-3">Account is activated</div>
-    );
+    content = <Alert type="success">Account is activated</Alert>;
   } else if (result === "fail") {
-    content = <div className="alert alert-danger mt-3">Activation failure</div>;
+    content = <Alert type="danger">Activation failure</Alert>;
   }
 
   return <div data-testid="account-activation-page">{content}</div>;

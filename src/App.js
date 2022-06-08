@@ -18,7 +18,7 @@ function App() {
 
   return (
     <Router>
-      <nav className="navbar navbar-expand navbar-light bg-light shadow">
+      <nav className="navbar navbar-expand navbar-light bg-light shadow-sm">
         <div className="container">
           <NavLink className="navbar-brand" to="/" title="Home">
             <img width="60" src={logoImage} alt="Hoaxify" />
@@ -38,7 +38,7 @@ function App() {
           </ul>
         </div>
       </nav>
-      <div className="container">
+      <div className="container pt-3">
         <Routes>
           <Route exact path="/" element={<HomePage />} />
           <Route path="/signup" element={<SignUpPage />} />
