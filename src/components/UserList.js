@@ -22,9 +22,16 @@ class UserList extends React.Component {
         <div className="card-header text-center">
           <h3>Users</h3>
         </div>
-        {this.state.page.content.map((user) => (
-          <li className="list-group-item list-group-item-action" key={user.id}>{user.username}</li>
-        ))}
+        {this.state.page.content.map((user) => {
+          return (
+            <li
+              key={user.id}
+              className="list-group-item list-group-item-action"
+            >
+              {user.username}
+            </li>
+          );
+        })}
       </div>
     );
   }
