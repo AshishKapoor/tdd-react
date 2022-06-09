@@ -1,4 +1,5 @@
-## Brief
+# Getting started
+
 ### Backend
 The project contains a backend which can simply be used with `yarn start-mem` (in memory).
 ### Frontend
