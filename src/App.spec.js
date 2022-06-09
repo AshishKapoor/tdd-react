@@ -9,7 +9,14 @@ const server = setupServer(
     return res(
       ctx.status(200),
       ctx.json({
-        content: [],
+        content: [
+          {
+            id: 1,
+            username: "user-in-list",
+            email: "user-in-list@mail.com",
+            image: null,
+          },
+        ],
         page: 0,
         size: 0,
         totalPages: 0,
@@ -61,8 +68,8 @@ describe("Routing", () => {
     ${"/"}             | ${"home-page"}
     ${"/signup"}       | ${"sign-up-page"}
     ${"/login"}        | ${"login-page"}
-    ${"/users/1"}      | ${"users-page"}
-    ${"/users/2"}      | ${"users-page"}
+    ${"/user/1"}      | ${"users-page"}
+    ${"/user/2"}      | ${"users-page"}
     ${"/activate/123"} | ${"account-activation-page"}
     ${"/activate/456"} | ${"account-activation-page"}
   `("displays $pageTestId when path is $path", ({ path, pageTestId }) => {
@@ -85,10 +92,10 @@ describe("Routing", () => {
     ${"/login"}        | ${"home-page"}
     ${"/login"}        | ${"signup-page"}
     ${"/login"}        | ${"users-page"}
-    ${"/users/1"}      | ${"home-page"}
-    ${"/users/1"}      | ${"sign-up-page"}
-    ${"/users/1"}      | ${"login-page"}
-    ${"/users/1"}      | ${"account-activation-page"}
+    ${"/user/1"}      | ${"home-page"}
+    ${"/user/1"}      | ${"sign-up-page"}
+    ${"/user/1"}      | ${"login-page"}
+    ${"/user/1"}      | ${"account-activation-page"}
     ${"/activate/123"} | ${"home-page"}
     ${"/activate/123"} | ${"sign-up-page"}
     ${"/activate/123"} | ${"login-page"}
@@ -134,6 +141,14 @@ describe("Routing", () => {
     const logo = screen.queryByAltText("Hoaxify");
     userEvent.click(logo);
     expect(screen.getByTestId("home-page")).toBeInTheDocument();
+  });
+
+  it("navigates to user page when clicking the username on the user list", async () => {
+    setup("/");
+    const user = await screen.findByText("user-in-list");
+    userEvent.click(user);
+    const page = await screen.findByTestId("users-page");
+    expect(page).toBeInTheDocument();
   });
 });
 

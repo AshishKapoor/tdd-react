@@ -1,5 +1,6 @@
 import React from "react";
 import { loadUsers } from "../api/apiCalls";
+import { Link } from "react-router-dom";
 
 class UserList extends React.Component {
   state = {
@@ -38,8 +39,9 @@ class UserList extends React.Component {
               <li
                 key={user.id}
                 className="list-group-item list-group-item-action"
+                style={{ cursor: "pointer" }}
               >
-                {user.username}
+                <Link to={`/user/${user.id}`}>{user.username}</Link>
               </li>
             );
           })}

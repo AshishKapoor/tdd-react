@@ -3,6 +3,7 @@ import UserList from "./UserList";
 import { setupServer } from "msw/node";
 import { rest } from "msw";
 import userEvent from "@testing-library/user-event";
+import { BrowserRouter as Router } from "react-router-dom";
 
 const users = [
   {
@@ -81,19 +82,27 @@ beforeEach(() => {
 });
 afterAll(() => server.close());
 
+const setup = () => {
+  render(
+    <Router>
+      <UserList />
+    </Router>
+  );
+};
+
 describe("User List", () => {
   it("displays three users in the list", async () => {
-    render(<UserList />);
+    setup();
     const users = await screen.findAllByText(/user/);
     expect(users.length).toBe(3);
   });
   it("displays next page link", async () => {
-    render(<UserList />);
+    setup();
     await screen.findByText(/user1/);
     expect(screen.getByText("next >")).toBeInTheDocument();
   });
   it("displays next page after clicking next", async () => {
-    render(<UserList />);
+    setup();
     await screen.findByText("user1");
     const nextPageLink = screen.queryByText("next >");
     userEvent.click(nextPageLink);
@@ -101,7 +110,7 @@ describe("User List", () => {
     expect(firstUserOnPage2).toBeInTheDocument();
   });
   it("hides next page link at the last page", async () => {
-    render(<UserList />);
+    setup();
     await screen.findByText("user1");
     userEvent.click(screen.queryByText("next >"));
 
@@ -114,13 +123,13 @@ describe("User List", () => {
     expect(nextPageLink).not.toBeInTheDocument();
   });
   it("does not display the previous page link in first page", async () => {
-    render(<UserList />);
+    setup();
     await screen.findByText("user1");
     const previousPageLink = screen.queryByText("< previous");
     expect(previousPageLink).not.toBeInTheDocument();
   });
   it("display the previous page link in second page", async () => {
-    render(<UserList />);
+    setup();
     await screen.findByText("user1");
     userEvent.click(screen.queryByText("next >"));
 
@@ -129,7 +138,7 @@ describe("User List", () => {
     expect(previousPageLink).toBeInTheDocument();
   });
   it("display the previous page after clicking previous page link", async () => {
-    render(<UserList />);
+    setup();
     await screen.findByText("user1");
     userEvent.click(screen.queryByText("next >"));
     await screen.findByText("user4");
