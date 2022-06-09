@@ -21,15 +21,15 @@ function App() {
       <nav className="navbar navbar-expand navbar-light bg-light shadow-sm">
         <div className="container">
           <NavLink className="navbar-brand" to="/" title="Home">
-            <img width="60" src={logoImage} alt="Hoaxify" />
-            Hoaxify
+            <img width="60" src={logoImage} alt="React with TDD" />
+            React with TDD
           </NavLink>
           <ul className="navbar-nav">
             <NavLink className="nav-link" to="/signup">
               {t("signUp")}
             </NavLink>
             <NavLink className="nav-link" to="/login">
-              Login
+              {t("login")}
             </NavLink>
             {/* Testing Account Activation */}
             {/* <NavLink className="nav-link" to="/activate/1">

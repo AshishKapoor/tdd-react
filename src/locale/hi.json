@@ -7,5 +7,6 @@
   "passwordMismatchValidation": "पासवर्ड का मेल नहीं हुआ",
   "users": "उपयोगकर्ता",
   "nextPage": "अगला >",
-  "previousPage": "< पिछला"
+  "previousPage": "< पिछला",
+  "login": "लॉग इन करें"
 }

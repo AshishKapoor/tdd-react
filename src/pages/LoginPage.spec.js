@@ -7,6 +7,10 @@ import userEvent from "@testing-library/user-event";
 import LoginPage from "./LoginPage";
 import { setupServer } from "msw/node";
 import { rest } from "msw";
+import "../locale/i18n";
+import en from "../locale/en.json";
+import hi from "../locale/hi.json";
+import LanguageSelector from "../components/LanguageSelector";
 
 let requestBody,
   count = 0;
@@ -121,6 +125,51 @@ describe("Login Page", () => {
       const errorMessage = await screen.findByText("Incorrect credentials");
       userEvent.type(passwordInput, "P4ssword");
       expect(errorMessage).not.toBeInTheDocument();
+    });
+  });
+  describe("Internationalization", () => {
+    let hindiToggle, englishToggle;
+    const setup = () => {
+      render(
+        <>
+          <LoginPage />
+          <LanguageSelector />
+        </>
+      );
+      hindiToggle = screen.getByTitle("Hindi");
+      englishToggle = screen.getByTitle("English");
+    };
+
+    it("initially displays all texts in english", () => {
+      setup();
+      expect(
+        screen.getByRole("heading", {
+          name: en.login,
+        })
+      ).toBeInTheDocument();
+      expect(
+        screen.getByRole("button", {
+          name: en.login,
+        })
+      ).toBeInTheDocument();
+      expect(screen.getByLabelText(en.email)).toBeInTheDocument();
+      expect(screen.getByLabelText(en.password)).toBeInTheDocument();
+    });
+    it("displays all text in Hindi after changing the language", () => {
+      setup();
+      userEvent.click(hindiToggle);
+      expect(
+        screen.getByRole("heading", {
+          name: hi.login,
+        })
+      ).toBeInTheDocument();
+      expect(
+        screen.getByRole("button", {
+          name: hi.login,
+        })
+      ).toBeInTheDocument();
+      expect(screen.getByLabelText(hi.email)).toBeInTheDocument();
+      expect(screen.getByLabelText(hi.password)).toBeInTheDocument();
     });
   });
 });

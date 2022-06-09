@@ -150,7 +150,7 @@ describe("Routing", () => {
   it("displays home page when clicking brand logo", () => {
     setup("/login");
 
-    const logo = screen.queryByAltText("Hoaxify");
+    const logo = screen.queryByAltText("React with TDD");
     userEvent.click(logo);
     expect(screen.getByTestId("home-page")).toBeInTheDocument();
   });
