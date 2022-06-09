@@ -44,8 +44,6 @@ function App() {
           <Route path="/signup" element={<SignUpPage />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/user/:id" element={<UsersPage />} />
-          {/* <Route path="/activate/:token" element={(props) => <AccountActivationPage {...props} />} /> */}
-          {/* with hooks */}
           <Route path="/activate/:token" element={<AccountActivationPage />} />
           <Route path="*" element={<NoMatch />} />
         </Routes>
