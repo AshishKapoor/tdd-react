@@ -1,5 +1,4 @@
 import {
-  act,
   render,
   screen,
   waitFor,
@@ -14,7 +13,6 @@ import { rest } from "msw";
 import "../locale/i18n";
 import en from "../locale/en.json";
 import hi from "../locale/hi.json";
-import i18n from "../locale/i18n";
 
 let reqBody;
 let counter = 0;
@@ -325,12 +323,6 @@ describe("Sign Up Page", () => {
       passwordInput = screen.getByLabelText(en.password);
       passwordRepeatInput = screen.getByLabelText(en.repeatPassword);
     };
-
-    afterEach(() => {
-      act(() => {
-        i18n.changeLanguage("en");
-      });
-    });
 
     it("initially displays all texts in english", () => {
       setup();
