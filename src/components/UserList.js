@@ -1,6 +1,6 @@
 import React from "react";
 import { loadUsers } from "../api/apiCalls";
-import { Link } from "react-router-dom";
+import UserListItem from "./UserListItem";
 
 class UserList extends React.Component {
   state = {
@@ -35,15 +35,7 @@ class UserList extends React.Component {
         </div>
         <ul className="list-group list-group-flush">
           {content.map((user) => {
-            return (
-              <li
-                key={user.id}
-                className="list-group-item list-group-item-action"
-                style={{ cursor: "pointer" }}
-              >
-                <Link to={`/user/${user.id}`}>{user.username}</Link>
-              </li>
-            );
+            return <UserListItem key={user.id} user={user} />;
           })}
         </ul>
         <div className="card-footer">
