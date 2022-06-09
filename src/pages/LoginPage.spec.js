@@ -1,4 +1,5 @@
 import { render, screen } from "@testing-library/react";
+import userEvent from "@testing-library/user-event";
 import LoginPage from "./LoginPage";
 
 describe("Login Page", () => {
@@ -32,6 +33,17 @@ describe("Login Page", () => {
       render(<LoginPage />);
       const button = screen.queryByRole("button", { name: "Login" });
       expect(button).toBeDisabled();
+    });
+  });
+  describe("Interactions", () => {
+    it("enabled the button when email and password inputs are filled", () => {
+      render(<LoginPage />);
+      const emailInput = screen.getByLabelText("Email");
+      const passwordInput = screen.getByLabelText("Password");
+      userEvent.type(emailInput, "user100@mail.com");
+      userEvent.type(passwordInput, "P4ssword");
+      const button = screen.queryByRole("button", { name: "Login" });
+      expect(button).toBeEnabled();
     });
   });
 });
