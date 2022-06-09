@@ -5,6 +5,7 @@ import { t } from "i18next";
 import { signUp } from "../api/apiCalls";
 import Alert from "../components/Alert";
 import Spinner from "../components/Spinner";
+import ButtonWithProgress from "../components/ButtonWithProgress";
 
 class SignUpPage extends React.Component {
   state = {
@@ -102,14 +103,13 @@ class SignUpPage extends React.Component {
               />
 
               <div className="text-center">
-                <button
-                  className="btn btn-primary"
-                  disabled={disabled || apiProgress}
+                <ButtonWithProgress
+                  disabled={disabled}
+                  apiProgress={apiProgress}
                   onClick={this.submit}
                 >
-                  {apiProgress && <Spinner />}
                   {t("signUp")}
-                </button>
+                </ButtonWithProgress>
               </div>
             </div>
           </form>

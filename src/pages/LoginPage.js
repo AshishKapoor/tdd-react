@@ -4,6 +4,7 @@ import Spinner from "../components/Spinner";
 import Alert from "../components/Alert";
 import { login } from "../api/apiCalls";
 import { useTranslation } from "react-i18next";
+import ButtonWithProgress from "../components/ButtonWithProgress";
 
 const LoginPage = ({ history }) => {
   const [email, setEmail] = useState();
@@ -63,14 +64,13 @@ const LoginPage = ({ history }) => {
           {failMessage && <Alert type="danger">{failMessage}</Alert>}
 
           <div className="text-center">
-            <button
-              className="btn btn-primary"
-              disabled={disabled || apiProgress}
+            <ButtonWithProgress
+              disabled={disabled}
               onClick={submit}
+              apiProgress={apiProgress}
             >
-              {apiProgress && <Spinner />}
               {t("login")}
-            </button>
+            </ButtonWithProgress>
           </div>
         </div>
       </form>
