@@ -1,9 +1,24 @@
 import { useState } from "react";
 import Input from "../components/Input";
+import Spinner from "../components/Spinner";
+import { login } from "../api/apiCalls";
 
 const LoginPage = () => {
   const [email, setEmail] = useState();
   const [password, setPassword] = useState();
+  const [apiProgress, setApiProgress] = useState(false);
+
+  const submit = async (event) => {
+    event.preventDefault();
+    setApiProgress(true);
+    try {
+      await login({
+        email,
+        password,
+      });
+    } catch (error) {}
+    setApiProgress(false);
+  };
   let disabled = !(email && password);
   return (
     <div
@@ -28,7 +43,12 @@ const LoginPage = () => {
           />
 
           <div className="text-center">
-            <button className="btn btn-primary" disabled={disabled}>
+            <button
+              className="btn btn-primary"
+              disabled={disabled || apiProgress}
+              onClick={submit}
+            >
+              {apiProgress && <Spinner />}
               Login
             </button>
           </div>
