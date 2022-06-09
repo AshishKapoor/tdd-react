@@ -1,6 +1,6 @@
-import { activate } from "../api/apiCalls";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
+import { activate } from "../api/apiCalls";
 import Alert from "../components/Alert";
 import Spinner from "../components/Spinner";
 

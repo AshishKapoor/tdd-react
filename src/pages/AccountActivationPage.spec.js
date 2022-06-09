@@ -1,7 +1,7 @@
 import { render, screen } from "@testing-library/react";
-import AccountActivationPage from "./AccountActivationPage";
-import { setupServer } from "msw/node";
 import { rest } from "msw";
+import { setupServer } from "msw/node";
+import AccountActivationPage from "./AccountActivationPage";
 
 let counter = 0;
 

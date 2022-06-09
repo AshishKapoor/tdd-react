@@ -1,12 +1,12 @@
 import { render, screen } from "@testing-library/react";
-import UserList from "./UserList";
-import { setupServer } from "msw/node";
-import { rest } from "msw";
 import userEvent from "@testing-library/user-event";
+import { rest } from "msw";
+import { setupServer } from "msw/node";
 import { BrowserRouter as Router } from "react-router-dom";
 import en from "../locale/en.json";
 import hi from "../locale/hi.json";
 import LanguageSelector from "./LanguageSelector";
+import UserList from "./UserList";
 
 const users = [
   {

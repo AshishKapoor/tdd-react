@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
-import { getUserById } from "../api/apiCalls";
 import { useParams } from "react-router-dom";
+import { getUserById } from "../api/apiCalls";
+import Alert from "../components/Alert";
 import ProfileCard from "../components/ProfileCard";
 import Spinner from "../components/Spinner";
-import Alert from "../components/Alert";
 
 const UsersPage = ({ match }) => {
   const { id } = useParams();

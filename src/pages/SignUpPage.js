@@ -1,11 +1,10 @@
-import React from "react";
-import Input from "../components/Input";
-import { withTranslation } from "react-i18next";
 import { t } from "i18next";
+import React from "react";
+import { withTranslation } from "react-i18next";
 import { signUp } from "../api/apiCalls";
 import Alert from "../components/Alert";
-import Spinner from "../components/Spinner";
 import ButtonWithProgress from "../components/ButtonWithProgress";
+import Input from "../components/Input";
 
 class SignUpPage extends React.Component {
   state = {

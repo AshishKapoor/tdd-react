@@ -1,10 +1,9 @@
 import { useEffect, useState } from "react";
-import Input from "../components/Input";
-import Spinner from "../components/Spinner";
-import Alert from "../components/Alert";
-import { login } from "../api/apiCalls";
 import { useTranslation } from "react-i18next";
+import { login } from "../api/apiCalls";
+import Alert from "../components/Alert";
 import ButtonWithProgress from "../components/ButtonWithProgress";
+import Input from "../components/Input";
 
 const LoginPage = ({ history }) => {
   const [email, setEmail] = useState();

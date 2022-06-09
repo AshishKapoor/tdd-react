@@ -1,16 +1,16 @@
 import {
   render,
   screen,
-  waitForElementToBeRemoved,
+  waitForElementToBeRemoved
 } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import LoginPage from "./LoginPage";
-import { setupServer } from "msw/node";
 import { rest } from "msw";
-import "../locale/i18n";
+import { setupServer } from "msw/node";
+import LanguageSelector from "../components/LanguageSelector";
 import en from "../locale/en.json";
 import hi from "../locale/hi.json";
-import LanguageSelector from "../components/LanguageSelector";
+import "../locale/i18n";
+import LoginPage from "./LoginPage";
 
 let requestBody,
   acceptLanguageHeader,

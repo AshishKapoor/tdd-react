@@ -1,7 +1,7 @@
 import { render, screen, waitFor } from "@testing-library/react";
-import UsersPage from "./UsersPage";
-import { setupServer } from "msw/node";
 import { rest } from "msw";
+import { setupServer } from "msw/node";
+import UsersPage from "./UsersPage";
 
 const server = setupServer();
 beforeAll(() => server.listen());

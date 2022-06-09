@@ -2,17 +2,17 @@ import {
   render,
   screen,
   waitFor,
-  waitForElementToBeRemoved,
+  waitForElementToBeRemoved
 } from "@testing-library/react";
-import SignUpPage from "./SignUpPage";
-import LanguageSelector from "../components/LanguageSelector";
 import userEvent from "@testing-library/user-event";
 import axios from "axios";
-import { setupServer } from "msw/node";
 import { rest } from "msw";
-import "../locale/i18n";
+import { setupServer } from "msw/node";
+import LanguageSelector from "../components/LanguageSelector";
 import en from "../locale/en.json";
 import hi from "../locale/hi.json";
+import "../locale/i18n";
+import SignUpPage from "./SignUpPage";
 
 let reqBody;
 let counter = 0;

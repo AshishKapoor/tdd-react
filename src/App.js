@@ -1,9 +1,9 @@
+import { createBrowserHistory } from "history";
 import { useTranslation } from "react-i18next";
 import {
-  unstable_HistoryRouter as HistoryRouter,
   NavLink,
   Route,
-  Routes,
+  Routes, unstable_HistoryRouter as HistoryRouter
 } from "react-router-dom";
 import logoImage from "./assets/images/logo512.png";
 import LanguageSelector from "./components/LanguageSelector";
@@ -12,7 +12,6 @@ import HomePage from "./pages/HomePage";
 import LoginPage from "./pages/LoginPage";
 import SignUpPage from "./pages/SignUpPage";
 import UsersPage from "./pages/UsersPage";
-import { createBrowserHistory } from "history";
 
 function App() {
   const { t } = useTranslation();

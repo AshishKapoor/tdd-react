@@ -1,8 +1,8 @@
 import React from "react";
-import { loadUsers } from "../api/apiCalls";
-import UserListItem from "./UserListItem";
 import { withTranslation } from "react-i18next";
+import { loadUsers } from "../api/apiCalls";
 import Spinner from "../components/Spinner";
+import UserListItem from "./UserListItem";
 
 class UserList extends React.Component {
   state = {
