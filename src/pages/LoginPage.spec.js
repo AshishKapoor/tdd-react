@@ -13,12 +13,14 @@ import hi from "../locale/hi.json";
 import LanguageSelector from "../components/LanguageSelector";
 
 let requestBody,
+  acceptLanguageHeader,
   count = 0;
 
 const server = setupServer(
   rest.post("/api/1.0/auth", (req, res, ctx) => {
     requestBody = req.body;
     count += 1;
+    acceptLanguageHeader = req.headers.get("Accept-Language");
     return res(
       ctx.status(401),
       ctx.json({
@@ -170,6 +172,18 @@ describe("Login Page", () => {
       ).toBeInTheDocument();
       expect(screen.getByLabelText(hi.email)).toBeInTheDocument();
       expect(screen.getByLabelText(hi.password)).toBeInTheDocument();
+    });
+    it("sets accept language header to en for outgoing request", async () => {
+      setup();
+      const emailInput = screen.getByLabelText("Email");
+      const passwordInput = screen.getByLabelText("Password");
+      userEvent.type(emailInput, "user100@mail.com");
+      userEvent.type(passwordInput, "P4ssword");
+      const button = screen.queryByRole("button", { name: "Login" });
+      userEvent.click(button);
+      const spinner = screen.getByRole("status");
+      await waitForElementToBeRemoved(spinner);
+      expect(acceptLanguageHeader).toBe("en");
     });
   });
 });

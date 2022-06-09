@@ -22,5 +22,9 @@ export const getUserById = (id) => {
 };
 
 export const login = (body) => {
-  return axios.post("/api/1.0/auth", body);
+  return axios.post("/api/1.0/auth", body, {
+    headers: {
+      "Accept-Language": i18n.language,
+    },
+  });
 };
