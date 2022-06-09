@@ -25,7 +25,7 @@ const NavBar = ({ auth }) => {
           )}
           {auth.isLoggedIn && (
             <NavLink className="nav-link" to={`/user/${auth.id}`}>
-              My Profile
+              {t("myProfile")}
             </NavLink>
           )}
         </ul>
