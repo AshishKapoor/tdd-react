@@ -130,7 +130,7 @@ describe("Login Page", () => {
     });
   });
   describe("Internationalization", () => {
-    let hindiToggle, englishToggle;
+    let hindiToggle;
     const setup = () => {
       render(
         <>
@@ -139,7 +139,6 @@ describe("Login Page", () => {
         </>
       );
       hindiToggle = screen.getByTitle("Hindi");
-      englishToggle = screen.getByTitle("English");
     };
 
     it("initially displays all texts in english", () => {

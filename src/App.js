@@ -1,6 +1,6 @@
 import { useTranslation } from "react-i18next";
 import {
-  BrowserRouter as Router,
+  unstable_HistoryRouter as HistoryRouter,
   NavLink,
   Route,
   Routes,
@@ -12,12 +12,14 @@ import HomePage from "./pages/HomePage";
 import LoginPage from "./pages/LoginPage";
 import SignUpPage from "./pages/SignUpPage";
 import UsersPage from "./pages/UsersPage";
+import { createBrowserHistory } from "history";
 
 function App() {
   const { t } = useTranslation();
+  const history = createBrowserHistory({ window });
 
   return (
-    <Router>
+    <HistoryRouter history={history}>
       <nav className="navbar navbar-expand navbar-light bg-light shadow-sm">
         <div className="container">
           <NavLink className="navbar-brand" to="/" title="Home">
@@ -42,14 +44,14 @@ function App() {
         <Routes>
           <Route exact path="/" element={<HomePage />} />
           <Route path="/signup" element={<SignUpPage />} />
-          <Route path="/login" element={<LoginPage />} />
+          <Route path="/login" element={<LoginPage history={history}/>} />
           <Route path="/user/:id" element={<UsersPage />} />
           <Route path="/activate/:token" element={<AccountActivationPage />} />
           <Route path="*" element={<NoMatch />} />
         </Routes>
         <LanguageSelector />
       </div>
-    </Router>
+    </HistoryRouter>
   );
 }
 

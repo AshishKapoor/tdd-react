@@ -53,7 +53,7 @@ describe("User Page", () => {
     const match = { params: { id: 100 } };
     render(<UsersPage match={match} />);
     await waitFor(() => {
-      expect(screen.queryByText("User not found")).toBeInTheDocument();
+      expect(screen.getByText("User not found")).toBeInTheDocument();
     });
   });
 });
