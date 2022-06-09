@@ -5,7 +5,7 @@ import Alert from "../components/Alert";
 import ButtonWithProgress from "../components/ButtonWithProgress";
 import Input from "../components/Input";
 
-const LoginPage = ({ history }) => {
+const LoginPage = ({ onLoginSuccess, history }) => {
   const [email, setEmail] = useState();
   const [password, setPassword] = useState();
   const [apiProgress, setApiProgress] = useState(false);
@@ -16,11 +16,16 @@ const LoginPage = ({ history }) => {
     event.preventDefault();
     setApiProgress(true);
     try {
-      await login({
+      const response = await login({
         email,
         password,
       });
       history.push("/");
+      const auth = {
+        isLoggedIn: true,
+        id: response?.data?.id
+      }
+      onLoginSuccess(auth);
     } catch (error) {
       setFailMessage(error?.response?.data?.message);
     }

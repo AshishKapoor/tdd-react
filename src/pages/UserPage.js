@@ -5,7 +5,7 @@ import Alert from "../components/Alert";
 import ProfileCard from "../components/ProfileCard";
 import Spinner from "../components/Spinner";
 
-const UsersPage = ({ match }) => {
+const UserPage = ({ match }) => {
   const { id } = useParams();
   const [user, setUser] = useState();
   const [pendingApiCall, setPendingApiCall] = useState(false);
@@ -42,7 +42,7 @@ const UsersPage = ({ match }) => {
     }
   }
 
-  return <div data-testid="users-page">{content}</div>;
+  return <div data-testid="user-page">{content}</div>;
 };
 
-export default UsersPage;
+export default UserPage;

@@ -42,6 +42,7 @@ const server = setupServer(
     return res(
       ctx.status(200),
       ctx.json({
+        id: 5,
         username: "user5",
       })
     );
@@ -89,8 +90,8 @@ describe("Routing", () => {
     ${"/"}             | ${"home-page"}
     ${"/signup"}       | ${"sign-up-page"}
     ${"/login"}        | ${"login-page"}
-    ${"/user/1"}       | ${"users-page"}
-    ${"/user/2"}       | ${"users-page"}
+    ${"/user/1"}       | ${"user-page"}
+    ${"/user/2"}       | ${"user-page"}
     ${"/activate/123"} | ${"account-activation-page"}
     ${"/activate/456"} | ${"account-activation-page"}
   `("displays $pageTestId when path is $path", ({ path, pageTestId }) => {
@@ -104,15 +105,15 @@ describe("Routing", () => {
     path               | pageTestId
     ${"/"}             | ${"sign-up-page"}
     ${"/"}             | ${"login-page"}
-    ${"/"}             | ${"users-page"}
+    ${"/"}             | ${"user-page"}
     ${"/"}             | ${"account-activation-page"}
     ${"/signup"}       | ${"home-page"}
     ${"/signup"}       | ${"login-page"}
-    ${"/signup"}       | ${"users-page"}
+    ${"/signup"}       | ${"user-page"}
     ${"/signup"}       | ${"account-activation-page"}
     ${"/login"}        | ${"home-page"}
     ${"/login"}        | ${"signup-page"}
-    ${"/login"}        | ${"users-page"}
+    ${"/login"}        | ${"user-page"}
     ${"/user/1"}       | ${"home-page"}
     ${"/user/1"}       | ${"sign-up-page"}
     ${"/user/1"}       | ${"login-page"}
@@ -168,7 +169,7 @@ describe("Routing", () => {
     setup("/");
     const user = await screen.findByText("user-in-list");
     userEvent.click(user);
-    const page = await screen.findByTestId("users-page");
+    const page = await screen.findByTestId("user-page");
     expect(page).toBeInTheDocument();
   });
 });
@@ -176,12 +177,48 @@ describe("Routing", () => {
 // console.error = () => {};
 
 describe("Login", () => {
-  it("redirects to homepage after successful login", async () => {
+  const setupLoggedIn = () => {
     setup("login");
     userEvent.type(screen.getByLabelText("Email"), "user5@mail.com");
     userEvent.type(screen.getByLabelText("Password"), "P4ssword");
     userEvent.click(screen.getByRole("button"), { name: "Login" });
+  };
+
+  it("redirects to homepage after successful login", async () => {
+    setupLoggedIn();
     const page = await screen.findByTestId("home-page");
     expect(page).toBeInTheDocument();
+  });
+  it("hides login and signup on navbar after successful login", async () => {
+    setupLoggedIn();
+    await screen.findByTestId("home-page");
+    const loginLink = screen.queryByRole("link", { name: "Login" });
+    const signupLink = screen.queryByRole("link", { name: "Sign Up" });
+    expect(loginLink).not.toBeInTheDocument();
+    expect(signupLink).not.toBeInTheDocument();
+  });
+  it.skip("displays myprofile link on navbar after successful login", async () => {
+    setup("login");
+    const myProfileLinkBeforeLogin = screen.queryByRole("link", {
+      name: "My Profile",
+    });
+    expect(myProfileLinkBeforeLogin).not.toBeInTheDocument();
+    userEvent.type(screen.getByLabelText("Email"), "user5@mail.com");
+    userEvent.type(screen.getByLabelText("Password"), "P4ssword");
+    userEvent.click(screen.getByRole("button"), { name: "Login" });
+    await screen.findByTestId("home-page");
+    const myProfileLinkAfterLogin = screen.queryByRole("link", {
+      name: "My Profile",
+    });
+    expect(myProfileLinkAfterLogin).toBeInTheDocument();
+  });
+  it("displays user page with logged in user id in url after clicking My Profile link", async () => {
+    setupLoggedIn();
+    await screen.findByTestId("home-page");
+    const myProfileLink = screen.queryByRole("link", { name: "My Profile" });
+    userEvent.click(myProfileLink);
+    await screen.findByTestId("user-page");
+    const username = await screen.findByText("user5");
+    expect(username).toBeInTheDocument();
   });
 });
