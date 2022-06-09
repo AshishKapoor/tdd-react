@@ -151,6 +151,20 @@ describe("User List", () => {
       const firstUser = await screen.findByText("user1");
       expect(firstUser).toBeInTheDocument();
     });
+    it("displays spinner during the api call is in progress", async () => {
+      setup();
+      const spinner = screen.getByRole("status");
+      await screen.findByText("user1");
+      expect(spinner).not.toBeInTheDocument();
+    });
+    // it("displays spinner during the api call is in progress and hides previous and next buttons", async () => {
+    //   setup();
+    //   const spinner = screen.getByRole("status");
+    //   const nextButton = screen.queryByText("next >");
+    //   const previousButton = screen.queryByText("< previous");
+    //   await screen.findByText("user1");
+    //   expect(spinner).not.toBeInTheDocument();
+    // });
   });
   describe("Internationalization", () => {
     beforeEach(() => {

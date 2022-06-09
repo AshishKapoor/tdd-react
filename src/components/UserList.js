@@ -2,6 +2,7 @@ import React from "react";
 import { loadUsers } from "../api/apiCalls";
 import UserListItem from "./UserListItem";
 import { withTranslation } from "react-i18next";
+import Spinner from "../components/Spinner";
 
 class UserList extends React.Component {
   state = {
@@ -11,12 +12,14 @@ class UserList extends React.Component {
       size: 0,
       totalPages: 0,
     },
+    pendingApiCall: false,
   };
 
   componentDidMount() {
     this.loadData();
   }
   loadData = async (pageIndex) => {
+    this.setState({ pendingApiCall: true });
     try {
       await loadUsers(pageIndex).then((response) => {
         this.setState({ page: response.data });
@@ -25,9 +28,11 @@ class UserList extends React.Component {
       console.error(error);
       throw error;
     }
+    this.setState({ pendingApiCall: false });
   };
 
   render() {
+    const { pendingApiCall } = this.state;
     const { totalPages, page, content } = this.state.page;
     const { t } = this.props;
     return (
@@ -40,23 +45,24 @@ class UserList extends React.Component {
             return <UserListItem key={user.id} user={user} />;
           })}
         </ul>
-        <div className="card-footer">
-          {page !== 0 && (
+        <div className="card-footer text-center">
+          {page !== 0 && !pendingApiCall && (
             <button
-              className="btn btn-outline-secondary btn-sm"
+              className="btn btn-outline-secondary btn-sm float-start"
               onClick={() => this.loadData(page - 1)}
             >
               {t("previousPage")}
             </button>
           )}
-          {totalPages > page + 1 && (
+          {totalPages > page + 1 && !pendingApiCall && (
             <button
-              className="btn btn-outline-secondary btn-sm"
+              className="btn btn-outline-secondary btn-sm float-end"
               onClick={() => this.loadData(page + 1)}
             >
               {t("nextPage")}
             </button>
           )}
+          {pendingApiCall && <Spinner />}
         </div>
       </div>
     );
