@@ -185,5 +185,18 @@ describe("Login Page", () => {
       await waitForElementToBeRemoved(spinner);
       expect(acceptLanguageHeader).toBe("en");
     });
+    it("sets accept language header to hi for outgoing request", async () => {
+      setup();
+      const emailInput = screen.getByLabelText("Email");
+      const passwordInput = screen.getByLabelText("Password");
+      userEvent.type(emailInput, "user100@mail.com");
+      userEvent.type(passwordInput, "P4ssword");
+      const button = screen.queryByRole("button", { name: "Login" });
+      userEvent.click(hindiToggle);
+      userEvent.click(button);
+      const spinner = screen.getByRole("status");
+      await waitForElementToBeRemoved(spinner);
+      expect(acceptLanguageHeader).toBe("hi");
+    });
   });
 });
