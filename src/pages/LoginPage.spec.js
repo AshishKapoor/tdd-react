@@ -8,13 +8,19 @@ import LoginPage from "./LoginPage";
 import { setupServer } from "msw/node";
 import { rest } from "msw";
 
-let requestBody, count = 0;
+let requestBody,
+  count = 0;
 
 const server = setupServer(
   rest.post("/api/1.0/auth", (req, res, ctx) => {
     requestBody = req.body;
     count += 1;
-    return res(ctx.status(401));
+    return res(
+      ctx.status(401),
+      ctx.json({
+        message: "Incorrect credentials",
+      })
+    );
   })
 );
 beforeAll(() => server.listen());
@@ -58,11 +64,11 @@ describe("Login Page", () => {
     });
   });
   describe("Interactions", () => {
-    let button;
+    let button, emailInput, passwordInput;
     const setup = () => {
       render(<LoginPage />);
-      const emailInput = screen.getByLabelText("Email");
-      const passwordInput = screen.getByLabelText("Password");
+      emailInput = screen.getByLabelText("Email");
+      passwordInput = screen.getByLabelText("Password");
       userEvent.type(emailInput, "user100@mail.com");
       userEvent.type(passwordInput, "P4ssword");
       button = screen.queryByRole("button", { name: "Login" });
@@ -96,6 +102,25 @@ describe("Login Page", () => {
       await waitForElementToBeRemoved(spinner);
       expect(count).toEqual(1);
     });
-    
+    it("disables authentication failed message", async () => {
+      setup();
+      userEvent.click(button);
+      const errorMessage = await screen.findByText("Incorrect credentials");
+      expect(errorMessage).toBeInTheDocument();
+    });
+    it("clears authentication fail message when email field is changed", async () => {
+      setup();
+      userEvent.click(button);
+      const errorMessage = await screen.findByText("Incorrect credentials");
+      userEvent.type(emailInput, "new@mail.com");
+      expect(errorMessage).not.toBeInTheDocument();
+    });
+    it("clears authentication fail message when password field is changed", async () => {
+      setup();
+      userEvent.click(button);
+      const errorMessage = await screen.findByText("Incorrect credentials");
+      userEvent.type(passwordInput, "P4ssword");
+      expect(errorMessage).not.toBeInTheDocument();
+    });
   });
 });

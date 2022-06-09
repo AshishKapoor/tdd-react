@@ -1,12 +1,14 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Input from "../components/Input";
 import Spinner from "../components/Spinner";
+import Alert from "../components/Alert";
 import { login } from "../api/apiCalls";
 
 const LoginPage = () => {
   const [email, setEmail] = useState();
   const [password, setPassword] = useState();
   const [apiProgress, setApiProgress] = useState(false);
+  const [failMessage, setFailMessage] = useState();
 
   const submit = async (event) => {
     event.preventDefault();
@@ -16,10 +18,19 @@ const LoginPage = () => {
         email,
         password,
       });
-    } catch (error) {}
+    } catch (error) {
+      setFailMessage(error?.response?.data?.message);
+    }
     setApiProgress(false);
   };
   let disabled = !(email && password);
+  useEffect(() => {
+    setFailMessage();
+    return () => {
+      setFailMessage();
+    };
+  }, [email, password]);
+
   return (
     <div
       className="col-lg-6 offset-lg-3 col-md-8 offset-md-2"
@@ -33,6 +44,10 @@ const LoginPage = () => {
           <Input
             id="email"
             label="Email"
+            // onChange={(event) => {
+            //   setEmail(event.target.value);
+            //   setFailMessage();
+            // }}
             onChange={(event) => setEmail(event.target.value)}
           />
           <Input
@@ -41,6 +56,7 @@ const LoginPage = () => {
             type="password"
             onChange={(event) => setPassword(event.target.value)}
           />
+          {failMessage && <Alert type="danger">{failMessage}</Alert>}
 
           <div className="text-center">
             <button
