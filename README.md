@@ -1,4 +1,5 @@
 # Getting started
+![Tests](https://github.com/ashishkapoor/tdd-react/actions/workflows/node.js.yml/badge.svg)
 
 ### Backend
 The project contains a backend which can simply be used with `yarn start-mem` (in memory).
