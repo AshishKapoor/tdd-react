@@ -1,4 +1,4 @@
-import { render, screen } from "@testing-library/react";
+import { render, screen } from "./test/setup";
 import userEvent from "@testing-library/user-event";
 import { rest } from "msw";
 import { setupServer } from "msw/node";
@@ -57,11 +57,7 @@ afterAll(() => server.close());
 
 const setup = (path) => {
   window.history.pushState({}, "", path);
-  render(
-    <AuthContextWrapper>
-      <App />
-    </AuthContextWrapper>
-  );
+  render(<App />);
 };
 
 describe("Routing", () => {

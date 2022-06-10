@@ -3,7 +3,7 @@ import {
   screen,
   waitFor,
   waitForElementToBeRemoved
-} from "@testing-library/react";
+} from "../test/setup";
 import userEvent from "@testing-library/user-event";
 import axios from "axios";
 import { rest } from "msw";
