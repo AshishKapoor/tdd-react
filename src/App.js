@@ -1,5 +1,4 @@
 import { createBrowserHistory } from "history";
-import { useState, createContext } from "react";
 import {
   Route,
   Routes,
@@ -13,41 +12,24 @@ import SignUpPage from "./pages/SignUpPage";
 import UserPage from "./pages/UserPage";
 import NavBar from "./components/NavBar";
 
-export const AuthContext = createContext();
-
 function App() {
   const history = createBrowserHistory({ window });
-  const [auth, setAuth] = useState({
-    isLoggedIn: false,
-    id: "",
-  });
 
   return (
-    <AuthContext.Provider
-      value={{
-        ...auth,
-        onLoginSuccess: setAuth,
-      }}
-    >
-      <HistoryRouter history={history}>
-        {/* <NavBar {...auth} /> */}
-        <NavBar />
-        <div className="container pt-3">
-          <Routes>
-            <Route exact path="/" element={<HomePage />} />
-            <Route path="/signup" element={<SignUpPage />} />
-            <Route path="/login" element={<LoginPage history={history} />} />
-            <Route path="/user/:id" element={<UserPage />} />
-            <Route
-              path="/activate/:token"
-              element={<AccountActivationPage />}
-            />
-            <Route path="*" element={<NoMatch />} />
-          </Routes>
-          <LanguageSelector />
-        </div>
-      </HistoryRouter>
-    </AuthContext.Provider>
+    <HistoryRouter history={history}>
+      <NavBar />
+      <div className="container pt-3">
+        <Routes>
+          <Route exact path="/" element={<HomePage />} />
+          <Route path="/signup" element={<SignUpPage />} />
+          <Route path="/login" element={<LoginPage history={history} />} />
+          <Route path="/user/:id" element={<UserPage />} />
+          <Route path="/activate/:token" element={<AccountActivationPage />} />
+          <Route path="*" element={<NoMatch />} />
+        </Routes>
+        <LanguageSelector />
+      </div>
+    </HistoryRouter>
   );
 }
 

@@ -1,5 +1,5 @@
 import defaultProfileImage from "../assets/images/profile.jpg";
-import { AuthContext } from "../App";
+import { AuthContext } from "../state/AuthContextWrapper";
 import { useContext } from "react";
 
 const ProfileCard = ({ user }) => {

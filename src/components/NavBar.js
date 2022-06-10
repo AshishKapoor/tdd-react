@@ -1,7 +1,7 @@
 import { useTranslation } from "react-i18next";
 import { NavLink } from "react-router-dom";
 import logoImage from "../assets/images/logo512.png";
-import { AuthContext } from "../App";
+import { AuthContext } from "../state/AuthContextWrapper";
 import { useContext } from "react";
 
 const NavBar = () => {

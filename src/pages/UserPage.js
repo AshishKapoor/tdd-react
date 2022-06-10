@@ -4,7 +4,7 @@ import { getUserById } from "../api/apiCalls";
 import Alert from "../components/Alert";
 import ProfileCard from "../components/ProfileCard";
 import Spinner from "../components/Spinner";
-import { AuthContext } from "../App";
+import { AuthContext } from "../state/AuthContextWrapper";
 
 const UserPage = ({ match }) => {
   const { id } = useParams();

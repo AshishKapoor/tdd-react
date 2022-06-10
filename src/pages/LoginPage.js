@@ -4,7 +4,7 @@ import { login } from "../api/apiCalls";
 import Alert from "../components/Alert";
 import ButtonWithProgress from "../components/ButtonWithProgress";
 import Input from "../components/Input";
-import { AuthContext } from "../App";
+import { AuthContext } from "../state/AuthContextWrapper";
 
 const LoginPage = ({ onLoginSuccess, history }) => {
   const [email, setEmail] = useState();
