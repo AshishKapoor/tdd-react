@@ -8,7 +8,6 @@ import userEvent from "@testing-library/user-event";
 import axios from "axios";
 import { rest } from "msw";
 import { setupServer } from "msw/node";
-import LanguageSelector from "../components/LanguageSelector";
 import en from "../locale/en.json";
 import hi from "../locale/hi.json";
 import "../locale/i18n";
@@ -315,7 +314,6 @@ describe("Sign Up Page", () => {
       render(
         <>
           <SignUpPage />
-          <LanguageSelector />
         </>
       );
       hindiToggle = screen.getByTitle("Hindi");

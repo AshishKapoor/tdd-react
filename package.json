@@ -12,6 +12,7 @@
     "react-scripts": "5.0.1",
     "web-vitals": "^2.1.4"
   },
+  "author": "Ashish Kapoor",
   "scripts": {
     "start": "PORT=9876 react-scripts start",
     "build": "react-scripts build",

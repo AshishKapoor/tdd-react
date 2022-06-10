@@ -3,7 +3,6 @@ import userEvent from "@testing-library/user-event";
 import { rest } from "msw";
 import { setupServer } from "msw/node";
 import App from "./App";
-import AuthContextWrapper from "./state/AuthContextWrapper";
 
 const server = setupServer(
   rest.get("/api/1.0/users/:id", (req, res, ctx) => {

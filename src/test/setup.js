@@ -2,9 +2,16 @@
 import React from "react";
 import { render } from "@testing-library/react";
 import AuthContextWrapper from "../state/AuthContextWrapper";
+import LanguageSelector from "../components/LanguageSelector";
 
 const RootWrapper = ({ children }) => {
-  return <AuthContextWrapper>{children}</AuthContextWrapper>;
+  // TODO: figure out how to use react-router-v6 here.
+  return (
+    <AuthContextWrapper>
+      {children}
+      <LanguageSelector />
+    </AuthContextWrapper>
+  );
 };
 
 const customRender = (ui, options) =>
