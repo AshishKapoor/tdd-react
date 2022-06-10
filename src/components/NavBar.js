@@ -1,9 +1,12 @@
 import { useTranslation } from "react-i18next";
 import { NavLink } from "react-router-dom";
 import logoImage from "../assets/images/logo512.png";
+import { AuthContext } from "../App";
+import { useContext } from "react";
 
-const NavBar = ({ auth }) => {
+const NavBar = () => {
   const { t } = useTranslation();
+  const auth = useContext(AuthContext);
 
   return (
     <nav className="navbar navbar-expand navbar-light bg-light shadow-sm">

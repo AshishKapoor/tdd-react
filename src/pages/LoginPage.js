@@ -1,9 +1,10 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { login } from "../api/apiCalls";
 import Alert from "../components/Alert";
 import ButtonWithProgress from "../components/ButtonWithProgress";
 import Input from "../components/Input";
+import { AuthContext } from "../App";
 
 const LoginPage = ({ onLoginSuccess, history }) => {
   const [email, setEmail] = useState();
@@ -11,6 +12,7 @@ const LoginPage = ({ onLoginSuccess, history }) => {
   const [apiProgress, setApiProgress] = useState(false);
   const [failMessage, setFailMessage] = useState();
   const { t } = useTranslation();
+  const auth = useContext(AuthContext);
 
   const submit = async (event) => {
     event.preventDefault();
@@ -21,11 +23,10 @@ const LoginPage = ({ onLoginSuccess, history }) => {
         password,
       });
       history.push("/");
-      const auth = {
+      auth.onLoginSuccess({
         isLoggedIn: true,
-        id: response?.data?.id
-      }
-      onLoginSuccess(auth);
+        id: response?.data?.id,
+      });
     } catch (error) {
       setFailMessage(error?.response?.data?.message);
     }

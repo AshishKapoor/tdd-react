@@ -1,15 +1,17 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { getUserById } from "../api/apiCalls";
 import Alert from "../components/Alert";
 import ProfileCard from "../components/ProfileCard";
 import Spinner from "../components/Spinner";
+import { AuthContext } from "../App";
 
 const UserPage = ({ match }) => {
   const { id } = useParams();
   const [user, setUser] = useState();
   const [pendingApiCall, setPendingApiCall] = useState(false);
   const [failResponse, setFailResponse] = useState(undefined);
+  const auth = useContext(AuthContext);
 
   useEffect(() => {
     setPendingApiCall(true);
@@ -42,7 +44,11 @@ const UserPage = ({ match }) => {
     }
   }
 
-  return <div data-testid="user-page">{content}</div>;
+  return (
+    <div data-testid="user-page">
+      <pre>{JSON.stringify(auth, null, 2)}</pre> {content}
+    </div>
+  );
 };
 
 export default UserPage;

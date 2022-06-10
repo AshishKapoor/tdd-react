@@ -1,6 +1,9 @@
 import defaultProfileImage from "../assets/images/profile.jpg";
+import { AuthContext } from "../App";
+import { useContext } from "react";
 
 const ProfileCard = ({ user }) => {
+  const auth = useContext(AuthContext);
   return (
     <div className="card text-center">
       <div className="card-header">
@@ -15,6 +18,7 @@ const ProfileCard = ({ user }) => {
       <div className="card-body">
         <h3>{user?.username}</h3>
       </div>
+      {auth && user?.id === auth?.id && <button>Edit</button>}
     </div>
   );
 };
