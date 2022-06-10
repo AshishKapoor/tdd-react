@@ -1,5 +1,5 @@
 # Getting started
-![Tests](https://github.com/ashishkapoor/tdd-react/actions/workflows/node.js.yml/badge.svg)
+[![Node.js CI](https://github.com/AshishKapoor/tdd-react/actions/workflows/node.js.yml/badge.svg)](https://github.com/AshishKapoor/tdd-react/actions/workflows/node.js.yml)
 
 ### Backend
 The project contains a backend which can simply be used with `yarn start-mem` (in memory).
