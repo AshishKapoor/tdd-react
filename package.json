@@ -17,6 +17,8 @@
     "start": "PORT=9876 react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
+    "test:coverage": "npm test -- --coverage",
+    "lint": "./node_modules/.bin/eslint .",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {

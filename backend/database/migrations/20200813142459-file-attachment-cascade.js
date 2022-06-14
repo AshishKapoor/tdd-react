@@ -1,5 +1,3 @@
-'use strict';
-
 module.exports = {
   // eslint-disable-next-line no-unused-vars
   up: async (queryInterface, Sequelize) => {
