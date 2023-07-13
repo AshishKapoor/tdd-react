@@ -16,7 +16,7 @@
     "cors": "^2.8.5",
     "express": "^4.17.1",
     "express-validator": "^6.6.1",
-    "file-type": "^14.7.1",
+    "file-type": "^16.5.4",
     "i18next": "^19.6.3",
     "i18next-fs-backend": "^1.0.7",
     "i18next-http-middleware": "^3.0.2",
